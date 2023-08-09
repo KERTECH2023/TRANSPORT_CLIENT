@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:users_app/assistants/assistant_methods.dart';
-
+import 'package:get/get.dart';
+import 'package:users_app/authentication/otp_page.dart';
 import '../global/global.dart';
 import '../widgets/progress_dialog.dart';
 
@@ -119,9 +120,9 @@ class _LoginState extends State<Login> {
   }
 
   // Function for Phone Number Login
-  void handlePhoneNumberLogin() {
-    // Implement the Phone Number Login logic here
-  }
+void handlePhoneNumberLogin() {
+  Navigator.pushNamed(context, '/phone_signin'); // Replace '/phone_number_login_interface' with the route of your desired interface
+}
 
   ButtonStyle customButtonStyle() {
     return ElevatedButton.styleFrom(

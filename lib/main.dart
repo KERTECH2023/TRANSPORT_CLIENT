@@ -2,8 +2,11 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 import 'package:users_app/InfoHandler/app_info.dart';
+import 'package:users_app/authentication/phone_signin.dart';
 import 'package:users_app/mainScreens/rate_driver_screen.dart';
 import 'package:users_app/mainScreens/search_places_screen.dart';
 import 'package:users_app/mainScreens/select_active_driver_screen.dart';
@@ -14,6 +17,7 @@ import 'authentication/register_screen.dart';
 import 'mainScreens/main_screen.dart';
 
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   Fluttertoast.showToast;
   await Firebase.initializeApp();
@@ -25,6 +29,7 @@ void main() async {
         routes: {
           '/': (context) => MySplashScreen(),
           '/main_screen': (context) => MainScreen(),
+          '/phone_signin': (context) => Phonesignin(),
           '/login_screen': (context) => Login(),
           '/register_screen': (context) => Register(),
           '/search_places_screen': (context) => SearchPlaces(),
