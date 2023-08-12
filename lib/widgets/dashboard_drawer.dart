@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:users_app/global/global.dart';
 import 'package:users_app/mainScreens/edit_profile_screen.dart';
 import 'package:users_app/mainScreens/profile_screen.dart';
@@ -106,6 +107,28 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
               leading: Icon(Icons.logout, color: Colors.black),
               title: Text(
                 "Sign Out",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () async {
+    final Uri _url = Uri.parse('https://www.facebook.com/');
+    if (await canLaunchUrl(_url)) {
+      await launchUrl(_url);
+    } else {
+      throw "Could not launch $_url";
+    }
+            },
+
+            child: const ListTile(
+              leading: Icon(Icons.logout, color: Colors.black),
+              title: Text(
+                "Wanna be driver?...",
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,

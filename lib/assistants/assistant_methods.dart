@@ -117,7 +117,7 @@ class AssistantMethods{
     print("Tokennnnnn///"+ cloudMessagingServerToken);
     Map<String,String> headerNotification = {
       'Content-Type' : 'application/json',
-      'Authorization' : 'Bearer ya29.a0AfB_byBFDSXN2e7wvp9cj6ZWuBXeMSerGBMu7Nlsbaa0l9CDc6CZCe3CdyGBrduTRRClBEwjZb6ntogIgM2_l87o_GskI2I3Fe5ICtXE5oEKB3Ca_ugL8rmpQuD66i-5O_QL_bawQw5vObzti0XiLLOmqgIEaCgYKAcgSARASFQHsvYlsafUckrzqHs74DRApCpSypA0163', 
+      'Authorization' : 'Bearer ya29.a0AfB_byBQsmMFh5pIO9mf8hsmH1HQUltRg8tdSN-Sot8WTKbCZKNc7A2j5kR35QZPDf0iiuJSqg11AqflZcCdUmvlPAg39X5w1mt9xrrWRqzIT2uKGXEuLmg-FR57VAncOVzgfjzfSAbng3A0t4h-9yTbA_9ktb4aCgYKAZUSARASFQHsvYlsEJ4fbBm4rDRdFev9GWVamw0166', 
       
       
     };
