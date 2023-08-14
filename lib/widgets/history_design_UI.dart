@@ -58,8 +58,8 @@ class _HistoryDesignUIState extends State<HistoryDesignUI> {
             const SizedBox(height: 5),
 
             // " - "
-            const Text(
-              "-",
+             Text(
+             widget.tripHistoryModel!.driverName! ,
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -87,10 +87,10 @@ class _HistoryDesignUIState extends State<HistoryDesignUI> {
 
                     const SizedBox(height: 5),
 
-                    const Text(
-                      "1.5 KM",
+                    Text(
+                    widget.tripHistoryModel!.sourceAddress! + " - " + widget.tripHistoryModel!.destinationAddress!,
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 13,
                           fontWeight: FontWeight.bold,
                           color: Colors.black
                       ),
@@ -101,29 +101,7 @@ class _HistoryDesignUIState extends State<HistoryDesignUI> {
                 const SizedBox(width: 20),
 
                 // Trip Duration
-                Column(
-                  children: [
-                    const Text(
-                      "Duration",
-                      style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.redAccent
-                      ),
-                    ),
-
-                    const SizedBox(height: 5),
-
-                    Text(
-                      "30 mins",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black
-                      ),
-                    ),
-                  ],
-                ),
+             
 
                 const SizedBox(width: 20),
 
@@ -133,7 +111,7 @@ class _HistoryDesignUIState extends State<HistoryDesignUI> {
                     const Text(
                       "Fare",
                       style: TextStyle(
-                          fontSize: 17,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: Colors.redAccent
                       ),
@@ -142,9 +120,9 @@ class _HistoryDesignUIState extends State<HistoryDesignUI> {
                     const SizedBox(height: 5),
 
                     Text(
-                      widget.tripHistoryModel!.fareAmount!,
+                      widget.tripHistoryModel!.fareAmount! + "TND",
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 13,
                           fontWeight: FontWeight.bold,
                           color: Colors.black
                       ),

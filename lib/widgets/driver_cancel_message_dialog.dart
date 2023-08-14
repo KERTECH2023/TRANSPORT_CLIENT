@@ -75,6 +75,7 @@ class _DriverCancelMessageDialogState extends State<DriverCancelMessageDialog> {
                 padding: const EdgeInsets.all(10.0),
                 child: ElevatedButton(
                   onPressed: (){
+                    Navigator.pushNamed(context, '/main_screen');
                     SystemNavigator.pop();
                   },
 

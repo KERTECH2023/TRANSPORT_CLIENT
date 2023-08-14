@@ -136,6 +136,7 @@ class _MainScreenState extends State<MainScreen> {
       "userPhone": currentUserInfo!.phone,
       "sourceAddress": sourceLocation.locationName,
       "destinationAddress": destinationLocation.locationName,
+      "healthStatus" : currentUserInfo!.healthStatus,
       "driverId": "waiting",
       "time": DateTime.now().toString(),
     };
@@ -165,6 +166,7 @@ class _MainScreenState extends State<MainScreen> {
           driverName = (snapshot.value as Map)["userName"].toString();
         });
       }
+     
 
       if ((snapshot.value as Map)["userPhone"] != null) {
         setState(() {

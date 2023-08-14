@@ -24,7 +24,7 @@ void main() async {
 
   runApp(ChangeNotifierProvider(
     create: (context) => AppInfo(),
-    child: MaterialApp(
+    child: GetMaterialApp(
         initialRoute: '/',
         routes: {
           '/': (context) => MySplashScreen(),

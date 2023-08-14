@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:users_app/global/global.dart';
 import 'package:users_app/mainScreens/edit_profile_screen.dart';
 import 'package:users_app/mainScreens/profile_screen.dart';
+import 'package:users_app/mainScreens/reclamation.dart';
 import 'package:users_app/mainScreens/trip_history_screen.dart';
 
 class DashboardDrawer extends StatefulWidget {
@@ -126,9 +127,26 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
             },
 
             child: const ListTile(
-              leading: Icon(Icons.logout, color: Colors.black),
+              leading: Icon(Icons.drive_eta, color: Colors.black),
               title: Text(
                 "Wanna be driver?...",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16
+                ),
+              ),
+            ),
+          ),
+           GestureDetector(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const reclamation()));
+            },
+
+            child: const ListTile(
+              leading: Icon(Icons.report_problem, color: Colors.black),
+              title: Text(
+                "Aide/Reclamation??",
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,

@@ -19,7 +19,8 @@ class _RegisterState extends State<Register> {
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController phoneTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
-
+   List<String> HealthStatus = ["Mentall Illnes", "Physicll Ilness","Both","None"];
+    String? SelectHealthStatus;
   final _formKey = GlobalKey<FormState>();
 
   bool isPasswordVisible = true;
@@ -30,7 +31,7 @@ class _RegisterState extends State<Register> {
     nameTextEditingController.addListener(() => setState(() {}) );
     emailTextEditingController.addListener(() => setState(() {}) );
     phoneTextEditingController.addListener(() => setState(() {}) );
-
+   
   }
 
   saveUserInfo() async {
@@ -57,7 +58,8 @@ class _RegisterState extends State<Register> {
         'id' : firebaseUser.uid,
         'name' : nameTextEditingController.text.trim(),
         'email' : emailTextEditingController.text.trim(),
-        'phone' : phoneTextEditingController.text.trim()
+        'phone' : phoneTextEditingController.text.trim(),
+         "HealthStatus": SelectHealthStatus,
       };
       
       DatabaseReference databaseReference = FirebaseDatabase.instance.ref().child('Users');
@@ -324,6 +326,33 @@ class _RegisterState extends State<Register> {
 
 
                   ),
+                      DropdownButton(
+                iconSize: 26,
+                dropdownColor: Colors.white,
+                hint: const Text(
+                  "Please Select Your Health Status",
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.black,
+                  ),
+                ),
+                value: SelectHealthStatus,
+                onChanged: (newValue)
+                {
+                  setState(() {
+                    SelectHealthStatus = newValue.toString();
+                  });
+                },
+                items: HealthStatus.map((health){
+                  return DropdownMenuItem(
+                    child: Text(
+                      health,
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                    value: health,
+                  );
+                }).toList(),
+              ),
 
                   const SizedBox(height: 20),
 
