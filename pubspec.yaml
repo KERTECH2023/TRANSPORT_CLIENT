@@ -57,6 +57,7 @@ dependencies:
   intl: ^0.18.1
   url_launcher: ^6.0.9
   geocoding: ^2.1.0
+  firebase_storage: ^11.2.6
 
   
 

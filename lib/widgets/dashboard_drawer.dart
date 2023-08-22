@@ -118,7 +118,7 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
           ),
           GestureDetector(
             onTap: () async {
-    final Uri _url = Uri.parse('https://www.facebook.com/');
+    final Uri _url = Uri.parse('https://frontwebpfe.vercel.app/Conducteur');
     if (await canLaunchUrl(_url)) {
       await launchUrl(_url);
     } else {

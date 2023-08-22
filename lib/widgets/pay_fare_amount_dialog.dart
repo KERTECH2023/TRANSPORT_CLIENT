@@ -79,8 +79,9 @@ class _PayFareDialogState extends State<PayFareDialog> {
                 child: ElevatedButton(
                   onPressed: (){
                     // If the pay cash button is pressed
-                    Navigator.pushNamed(context, "/main_screen");
+                    
                     Navigator.pop(context,"Cash Paid");
+                    Navigator.pushNamed(context, "/main_screen");
                     
                   },
 

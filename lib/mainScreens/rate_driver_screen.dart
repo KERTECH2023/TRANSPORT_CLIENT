@@ -1,21 +1,28 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smooth_star_rating_nsafe/smooth_star_rating.dart';
-import 'package:users_app/global/global.dart';
+
+import '../global/global.dart';
 
 class RateDriverScreen extends StatefulWidget {
   String? assignedDriverId;
   String? driverName;
 
-  RateDriverScreen({this.assignedDriverId,this.driverName});
+  RateDriverScreen({this.assignedDriverId, this.driverName});
 
   @override
   State<RateDriverScreen> createState() => _RateDriverScreenState();
 }
 
 class _RateDriverScreenState extends State<RateDriverScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  TextEditingController commentController = TextEditingController(); // Added
+  double countRatingStars = 0; // Added
+  String titleStarsRating = "Excellent"; // Added
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,32 +34,27 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 15,
-            color: Colors.black
+            color: Colors.black,
           ),
         ),
-
-        leadingWidth: 75, // Keeps skip button in single line
-
+        leadingWidth: 75,
         leading: ElevatedButton(
           onPressed: () {
             Navigator.pushReplacementNamed(context, "/main_screen");
           },
           style: ElevatedButton.styleFrom(
-            primary: Colors.white
+            primary: Colors.white,
           ),
           child: const Text(
             "Skip",
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
-                color: Colors.redAccent
-            ),
+                color: Colors.redAccent),
           ),
         ),
       ),
-
       backgroundColor: Colors.white,
-
       body: Dialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(14),
@@ -68,12 +70,11 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const SizedBox(height: 5.0,),
-
-              CircleAvatar(
+              const SizedBox(height: 5.0),
+            CircleAvatar(
                 backgroundColor: Colors.white,
                 child: Image.asset(
-                  "images/Passport_Photo.png",
+                  "images/Passport_Photo.jpg",
                 ),
                 radius: 60,
               ),
@@ -159,52 +160,69 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
               ),
 
               const SizedBox(height: 15.0,),
-
-              ElevatedButton(
-                  onPressed: ()
-                  {
-                    DatabaseReference rateDriverRef = FirebaseDatabase.instance.ref()
-                        .child("Drivers")
-                        .child(widget.assignedDriverId!)
-                        .child("ratings");
-
-                    rateDriverRef.once().then((snap)
-                    {
-                      if(snap.snapshot.value == null)
-                      {
-                        rateDriverRef.set(countRatingStars.toString());
-
-                        SystemNavigator.pop();
-                      }
-                      else
-                      {
-                        double pastRatings = double.parse(snap.snapshot.value.toString());
-                        double newAverageRatings = (pastRatings + countRatingStars) / 2;
-                        rateDriverRef.set(newAverageRatings.toString());
-                        Navigator.pushNamed(context, "/main_screen");
-                        SystemNavigator.pop();
-                      }
-
-                    });
-                  },
-
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.redAccent,
-                    padding: EdgeInsets.symmetric(horizontal: 74),
+              // Add a text field for comments
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: TextField(
+                  controller: commentController,
+                  decoration: InputDecoration(
+                    labelText: "Add a Comment (optional)",
+                    border: OutlineInputBorder(),
                   ),
-
-                  child: const Text(
-                    "Submit",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  )
+                ),
               ),
 
-              const SizedBox(height: 10.0,),
+              const SizedBox(height: 15.0),
 
+              ElevatedButton(
+                onPressed: () {
+                  DatabaseReference rateDriverRef =
+                      FirebaseDatabase.instance.ref()
+                          .child("Drivers")
+                          .child(widget.assignedDriverId!)
+                          .child("ratings");
+
+                  rateDriverRef.once().then((snap) {
+                    if (snap.snapshot.value == null) {
+                      rateDriverRef.set(countRatingStars.toString());
+                    } else {
+                      double pastRatings =
+                          double.parse(snap.snapshot.value.toString());
+                      double newAverageRatings =
+                          (pastRatings + countRatingStars) / 2;
+                      rateDriverRef.set(newAverageRatings.toString());
+                    }
+
+                    // Save the comment to Firebase
+                    String comment = commentController.text;
+                    if (comment.isNotEmpty) {
+                      DatabaseReference commentRef =
+                          FirebaseDatabase.instance.ref()
+                              .child("Drivers")
+                              .child(widget.assignedDriverId!)
+                              .child("comments")
+                              .push();
+                      commentRef.set(comment);
+                    }
+
+                    Navigator.pushNamed(context, "/main_screen");
+                    SystemNavigator.pop();
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.redAccent,
+                  padding: EdgeInsets.symmetric(horizontal: 74),
+                ),
+                child: const Text(
+                  "Submit",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10.0),
             ],
           ),
         ),
@@ -212,3 +230,5 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
     );
   }
 }
+
+
