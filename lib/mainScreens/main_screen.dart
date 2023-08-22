@@ -136,7 +136,7 @@ class _MainScreenState extends State<MainScreen> {
       "userPhone": currentUserInfo!.phone,
       "sourceAddress": sourceLocation.locationName,
       "destinationAddress": destinationLocation.locationName,
-      "healthStatus" : currentUserInfo!.healthStatus,
+      "HealthStatus" : currentUserInfo!.healthStatus,
       "driverId": "waiting",
       "time": DateTime.now().toString(),
     };
@@ -704,7 +704,7 @@ class _MainScreenState extends State<MainScreen> {
               height: assignedDriverInfoContainerHeight,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
@@ -940,24 +940,24 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
           ),
-          // Positioned(
-          //   bottom: 0,
-          //   left: 0,
-          //   right: 0,
-          //   child: Container(
-          //     height: assignedDriverInfoContainerHeight,
-          //     decoration: BoxDecoration(color: Colors.white,
-          //     borderRadius: BorderRadius.circular(10)),
-          //     child: Padding(
-          //       padding: EdgeInsets.all(10),
-          //       child: Column(
-          //         children: [
-          //           Text(driverRideStatus,style: TextStyle(fontWeight: FontWeight.bold ),),
-          //           SizedBox(height: 5,),
-          //           Divider(thickness: 1, colors,)
-          //         ],
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: assignedDriverInfoContainerHeight,
+              decoration: BoxDecoration(color: Colors.white,
+              borderRadius: BorderRadius.circular(10)),
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Text(driverRideStatus,style: TextStyle(fontWeight: FontWeight.bold ),),
+                    SizedBox(height: 5,),
+                    Divider(thickness: 1,)
+                  ],
 
-          // )
+          ))))
         ]));
   }
 

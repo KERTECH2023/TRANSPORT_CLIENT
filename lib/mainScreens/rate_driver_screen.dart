@@ -215,11 +215,14 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                 ),
                 child: const Text(
                   "Submit",
+                  
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
+                    
                   ),
+                  
                 ),
               ),
               const SizedBox(height: 10.0),

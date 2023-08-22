@@ -14,7 +14,7 @@ class UserModel{
     name = (snapshot.value as dynamic)["name"];
     email = (snapshot.value as dynamic)["email"];
     phone = (snapshot.value as dynamic)["phone"];
-    healthStatus =(snapshot.value as dynamic)['Healthstatus'];
+    healthStatus =(snapshot.value as dynamic)['HealthStatus'];
   }
 
 }
