@@ -6,6 +6,7 @@ import 'package:users_app/mainScreens/edit_profile_screen.dart';
 import 'package:users_app/mainScreens/profile_screen.dart';
 import 'package:users_app/mainScreens/reclamation.dart';
 import 'package:users_app/mainScreens/trip_history_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardDrawer extends StatefulWidget {
   String? name;
@@ -65,10 +66,10 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const TripHistoryScreen()));
             },
 
-            child: const ListTile(
+            child:  ListTile(
               leading: Icon(Icons.history, color: Colors.black),
               title: Text(
-                "History",
+                AppLocalizations.of(context)!.history,
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -83,10 +84,10 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfileScreen()));
             },
 
-            child: const ListTile(
+            child:  ListTile(
               leading: Icon(Icons.person, color: Colors.black),
               title: Text(
-                "Profile",
+               AppLocalizations.of(context)!.profil,
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -96,26 +97,6 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
             ),
           ),
 
-
-          GestureDetector(
-            onTap: (){
-              //Signout
-              firebaseAuth.signOut();
-              Navigator.pushNamed(context, '/');
-            },
-
-            child: const ListTile(
-              leading: Icon(Icons.logout, color: Colors.black),
-              title: Text(
-                "Sign Out",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16
-                ),
-              ),
-            ),
-          ),
           GestureDetector(
             onTap: () async {
     final Uri _url = Uri.parse('https://frontwebpfe.vercel.app/Conducteur');
@@ -126,10 +107,10 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
     }
             },
 
-            child: const ListTile(
+            child: ListTile(
               leading: Icon(Icons.drive_eta, color: Colors.black),
               title: Text(
-                "Wanna be driver?...",
+                AppLocalizations.of(context)!.wannabedriver,
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -143,10 +124,29 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const reclamation()));
             },
 
-            child: const ListTile(
+            child:  ListTile(
               leading: Icon(Icons.report_problem, color: Colors.black),
               title: Text(
-                "Aide/Reclamation??",
+                AppLocalizations.of(context)!.reclamation,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16
+                ),
+              ),
+            ),
+          ),
+             GestureDetector(
+            onTap: (){
+              //Signout
+              firebaseAuth.signOut();
+              Navigator.pushNamed(context, '/');
+            },
+
+            child:  ListTile(
+              leading: Icon(Icons.logout, color: Colors.black),
+              title: Text(
+                AppLocalizations.of(context)!.signout,
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,

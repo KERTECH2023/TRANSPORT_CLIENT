@@ -13,7 +13,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating_nsafe/smooth_star_rating.dart';
 import 'package:users_app/assistants/Geofire_assistant.dart';
+import 'package:users_app/classesLanguage/language.dart';
+import 'package:users_app/classesLanguage/language_constants.dart';
 import 'package:users_app/global/global.dart';
+import 'package:users_app/main.dart';
 import 'package:users_app/mainScreens/rate_driver_screen.dart';
 import 'package:users_app/mainScreens/select_active_driver_screen.dart';
 import 'package:users_app/models/active_nearby_available_drivers.dart';
@@ -23,7 +26,7 @@ import 'package:users_app/widgets/dashboard_drawer.dart';
 import 'package:http/http.dart';
 import 'package:users_app/widgets/driver_cancel_message_dialog.dart';
 import 'package:users_app/widgets/pay_fare_amount_dialog.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../InfoHandler/app_info.dart';
 import '../assistants/assistant_methods.dart';
 import '../widgets/progress_dialog.dart';
@@ -34,12 +37,16 @@ class MainScreen extends StatefulWidget {
 
   @override
   State<MainScreen> createState() => _MainScreenState();
-}
+ 
+  }
+  
+
 
 class _MainScreenState extends State<MainScreen> {
   final Completer<GoogleMapController> _controllerGoogleMap = Completer();
   GoogleMapController? newMapController;
-
+  
+  
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(36.891696, 10.1815426),
     zoom: 9.4746,
@@ -447,6 +454,42 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     createActiveDriverIconMarker();
     return Scaffold(
+       appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.homePage),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DropdownButton<Language>(
+              underline: const SizedBox(),
+              icon: const Icon(
+                Icons.language,
+                color: Colors.white,
+              ),
+              onChanged: (Language? language) async {
+                if (language != null) {
+                  Locale _locale = await setLocale(language.languageCode);
+                  MyApp.setLocale(context, _locale);
+                }
+              },
+              items: Language.languageList().map<DropdownMenuItem<Language>>(
+                (e) => DropdownMenuItem<Language>(
+                  value: e,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(
+                        e.flag,
+                        style: const TextStyle(fontSize: 30),
+                      ),
+                      Text(e.name)
+                    ],
+                  ),
+                ),
+              ).toList(),
+            ),
+          ),
+        ],
+      ),
         key: sKey,
         drawer: DashboardDrawer(name: userName),
         body: Stack(children: [
@@ -533,8 +576,8 @@ class _MainScreenState extends State<MainScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  "From",
+                                 Text(
+                                  AppLocalizations.of(context)!.from,
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 12),
                                 ),
@@ -551,7 +594,7 @@ class _MainScreenState extends State<MainScreen> {
                                                   .userPickupLocation!
                                                   .locationName!
                                                   .length)
-                                      : "No Address found",
+                                      : AppLocalizations.of(context)!.noaddr,
                                   style: const TextStyle(
                                       color: Colors.black, fontSize: 14),
                                 ),
@@ -592,8 +635,8 @@ class _MainScreenState extends State<MainScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  "To",
+                                Text(
+                                 AppLocalizations.of(context)!.to,
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 12),
                                 ),
@@ -610,7 +653,7 @@ class _MainScreenState extends State<MainScreen> {
                                                   .userDropOffLocation!
                                                   .locationName!
                                                   .length)
-                                      : "Where to?",
+                                      : AppLocalizations.of(context)!.whereto,
                                   style: const TextStyle(
                                       color: Colors.black, fontSize: 14),
                                 ),
@@ -638,14 +681,14 @@ class _MainScreenState extends State<MainScreen> {
                             saveRideRequestInformation();
                           } else {
                             Fluttertoast.showToast(
-                                msg: "Please select your destination");
+                                msg:  AppLocalizations.of(context)!.selectyourdes);
                           }
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black,
                             textStyle: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold)),
-                        child: const Text("Request a ride"),
+                        child: Text(AppLocalizations.of(context)!.requestaride),
                       )
                     ],
                   ),
@@ -940,24 +983,24 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: assignedDriverInfoContainerHeight,
-              decoration: BoxDecoration(color: Colors.white,
-              borderRadius: BorderRadius.circular(10)),
-              child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    Text(driverRideStatus,style: TextStyle(fontWeight: FontWeight.bold ),),
-                    SizedBox(height: 5,),
-                    Divider(thickness: 1,)
-                  ],
+          // Positioned(
+          //   bottom: 0,
+          //   left: 0,
+          //   right: 0,
+          //   child: Container(
+          //     height: assignedDriverInfoContainerHeight,
+          //     decoration: BoxDecoration(color: Colors.white,
+          //     borderRadius: BorderRadius.circular(10)),
+          //     child: Padding(
+          //       padding: EdgeInsets.all(10),
+          //       child: Column(
+          //         children: [
+          //           Text(driverRideStatus,style: TextStyle(fontWeight: FontWeight.bold ),),
+          //           SizedBox(height: 5,),
+          //           Divider(thickness: 1,)
+          //         ],
 
-          ))))
+          // ))))
         ]));
   }
 

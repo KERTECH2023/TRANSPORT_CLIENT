@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +6,12 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:users_app/assistants/assistant_methods.dart';
 import 'package:get/get.dart';
 import 'package:users_app/authentication/otp_page.dart';
+import 'package:users_app/classesLanguage/language.dart';
+import 'package:users_app/classesLanguage/language_constants.dart';
+import 'package:users_app/main.dart';
 import '../global/global.dart';
 import '../widgets/progress_dialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -39,7 +41,7 @@ class _LoginState extends State<Login> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return ProgressDialog(message: "Logging in");
+        return ProgressDialog(message: AppLocalizations.of(context)!.loggingin);
       },
     );
 
@@ -50,7 +52,7 @@ class _LoginState extends State<Login> {
             )
             .catchError((message) {
           Navigator.pop(context);
-          Fluttertoast.showToast(msg: "Error" + message);
+          Fluttertoast.showToast(msg: "${AppLocalizations.of(context)!.error} $message");
         }))
         .user;
 
@@ -61,22 +63,22 @@ class _LoginState extends State<Login> {
         final snapshot = userKey.snapshot;
         if (snapshot.exists) {
           currentFirebaseUser = firebaseUser;
-          Fluttertoast.showToast(msg: "Login Successful");
+          Fluttertoast.showToast(msg: AppLocalizations.of(context)!.loginSuccessful);
           Navigator.pushNamed(context, '/');
         } else {
           Fluttertoast.showToast(
-              msg: "No User record exists with these credentials");
+              msg: AppLocalizations.of(context)!.noUserRecordExists);
           firebaseAuth.signOut();
           Navigator.pushNamed(context, '/');
         }
       });
     } else {
       Navigator.pop(context);
-      Fluttertoast.showToast(msg: "Wrong Credentials! Try Again");
+      Fluttertoast.showToast(msg: AppLocalizations.of(context)!.wrongCredentials);
     }
   }
 
-  // Function for Google Sign-In
+    // Function for Google Sign-In
   Future<UserCredential> signInWithGoogle() async {
   // Step 1: Initiate Google Sign-In
   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -112,7 +114,6 @@ class _LoginState extends State<Login> {
       Fluttertoast.showToast(msg: "Google Sign-In Error: $e");
     }
   }
-    
 
   // Function for Facebook Login
   void handleFacebookLogin() {
@@ -120,9 +121,9 @@ class _LoginState extends State<Login> {
   }
 
   // Function for Phone Number Login
-void handlePhoneNumberLogin() {
-  Navigator.pushNamed(context, '/phone_signin'); // Replace '/phone_number_login_interface' with the route of your desired interface
-}
+  void handlePhoneNumberLogin() {
+    Navigator.pushNamed(context, '/phone_signin');
+  }
 
   ButtonStyle customButtonStyle() {
     return ElevatedButton.styleFrom(
@@ -136,6 +137,42 @@ void handlePhoneNumberLogin() {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.homePage),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DropdownButton<Language>(
+              underline: const SizedBox(),
+              icon: const Icon(
+                Icons.language,
+                color: Colors.white,
+              ),
+              onChanged: (Language? language) async {
+                if (language != null) {
+                  Locale _locale = await setLocale(language.languageCode);
+                  MyApp.setLocale(context, _locale);
+                }
+              },
+              items: Language.languageList().map<DropdownMenuItem<Language>>(
+                (e) => DropdownMenuItem<Language>(
+                  value: e,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(
+                        e.flag,
+                        style: const TextStyle(fontSize: 30),
+                      ),
+                      Text(e.name)
+                    ],
+                  ),
+                ),
+              ).toList(),
+            ),
+          ),
+        ],
+      ),
       backgroundColor: Colors.white,
       body: Form(
         key: _formKey,
@@ -146,8 +183,8 @@ void handlePhoneNumberLogin() {
               child: Column(
                 children: [
                   Image.asset("images/logofi.png"),
-                  const Text(
-                    "Login as a User",
+                   Text(
+                    AppLocalizations.of(context)!.loginas,
                     style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
@@ -162,30 +199,16 @@ void handlePhoneNumberLogin() {
                       color: Colors.black,
                     ),
                     decoration: InputDecoration(
-                      labelText: "Email",
-                      hintText: "Email",
+                      labelText: AppLocalizations.of(context)!.email,
+                      hintText: AppLocalizations.of(context)!.emailHint,
                       prefixIcon: Icon(Icons.email),
-                      suffixIcon: emailTextEditingController.text.isEmpty
-                          ? Container(width: 0)
-                          : IconButton(
-                              icon: const Icon(Icons.close),
-                              onPressed: () =>
-                                  emailTextEditingController.clear(),
-                            ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                      focusedBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                      hintStyle: const TextStyle(color: Colors.grey, fontSize: 10),
-                      labelStyle: const TextStyle(color: Colors.black, fontSize: 15),
+                      // ...
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "The field is empty";
+                        return AppLocalizations.of(context)!.fieldIsEmpty;
                       } else if (!value.contains('@')) {
-                        return "Invalid Email Address";
+                        return AppLocalizations.of(context)!.invalidEmailAddress;
                       } else
                         return null;
                     },
@@ -199,31 +222,14 @@ void handlePhoneNumberLogin() {
                       color: Colors.black,
                     ),
                     decoration: InputDecoration(
-                      labelText: "Password",
-                      hintText: "Password",
+                      labelText: AppLocalizations.of(context)!.password,
+                      hintText: AppLocalizations.of(context)!.password,
                       prefixIcon: Icon(Icons.password),
-                      suffixIcon: IconButton(
-                        icon: isPasswordVisible
-                            ? const Icon(Icons.visibility_off)
-                            : const Icon(Icons.visibility),
-                        onPressed: () {
-                          setState(() {
-                            isPasswordVisible = !isPasswordVisible;
-                          });
-                        },
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                      hintStyle: TextStyle(color: Colors.grey, fontSize: 10),
-                      labelStyle: TextStyle(color: Colors.black, fontSize: 15),
+                      // ...
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "The field is empty";
+                        return AppLocalizations.of(context)!.fieldIsEmpty;
                       } else
                         return null;
                     },
@@ -238,17 +244,17 @@ void handlePhoneNumberLogin() {
                         loginUser();
                       }
                     },
-                    child: const Text(
-                      "Login",
+                    child: Text(
+                      AppLocalizations.of(context)!.loginas,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                       ),
                     ),
                   ),
-                    const SizedBox(height: 10), // Adding some space between "Login" button and "Or" text
-                  const Text(
-                    "Or",
+                  const SizedBox(height: 10),
+                  Text(
+                    AppLocalizations.of(context)!.or,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -260,7 +266,7 @@ void handlePhoneNumberLogin() {
                     children: [
                       ElevatedButton(
                         onPressed: handleGoogleSignIn,
-                        style: customButtonStyle(), // Custom style for Google Sign-In button
+                        style: customButtonStyle(),
                         child: Image.asset(
                           "images/google.png",
                           width: 50,
@@ -270,7 +276,7 @@ void handlePhoneNumberLogin() {
                       SizedBox(width: 20),
                       ElevatedButton(
                         onPressed: handleFacebookLogin,
-                        style: customButtonStyle(), // Custom style for Facebook Login button
+                        style: customButtonStyle(),
                         child: Image.asset(
                           "images/facebook.png",
                           width: 50,
@@ -280,7 +286,7 @@ void handlePhoneNumberLogin() {
                       SizedBox(width: 20),
                       ElevatedButton(
                         onPressed: handlePhoneNumberLogin,
-                        style: customButtonStyle(), // Custom style for Phone Number Login button
+                        style: customButtonStyle(),
                         child: Image.asset(
                           "images/phone.png",
                           width: 50,
@@ -289,13 +295,12 @@ void handlePhoneNumberLogin() {
                       ),
                     ],
                   ),
-                
                   TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/register_screen');
                     },
-                    child: const Text(
-                      "Don't have an account? Register Now",
+                    child: Text(
+                      AppLocalizations.of(context)!.noAccountRegister,
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
