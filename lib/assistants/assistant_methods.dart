@@ -88,27 +88,27 @@ class AssistantMethods{
 
   static double calculateFareAmountFromSourceToDestination(DirectionDetailsInfo directionDetailsInfo, String vehicleType)
   {
-    double baseFare,FareAmountPerMinute,FareAmountPerKilometer;
+    double baseFare,fareAmountPerKilometer;
     if (vehicleType == "UberX"){
       baseFare = 3.5;
      
-      FareAmountPerKilometer = directionDetailsInfo.distance_value! * baseFare;
+      fareAmountPerKilometer = directionDetailsInfo.distance_value! * baseFare;
     }
 
     else if (vehicleType == "Uber Premier"){
       baseFare = 3.5;
      
-      FareAmountPerKilometer = directionDetailsInfo.distance_value! * baseFare;
+      fareAmountPerKilometer = directionDetailsInfo.distance_value! * baseFare;
     }
 
     else{
       baseFare = 3.5;
       
-      FareAmountPerKilometer = directionDetailsInfo.distance_value! * baseFare;
+      fareAmountPerKilometer = directionDetailsInfo.distance_value! * baseFare;
     }
 
     
-    double totalFareAmount = FareAmountPerKilometer;
+    double totalFareAmount = fareAmountPerKilometer;
     return double.parse(totalFareAmount.toStringAsFixed(1));
   }
 
@@ -117,7 +117,7 @@ class AssistantMethods{
     print("Tokennnnnn///"+ cloudMessagingServerToken);
     Map<String,String> headerNotification = {
       'Content-Type' : 'application/json',
-      'Authorization' : 'Bearer ya29.a0AfB_byAAKbVSmRCsx8-A1xqRxtKV_odZ_VqCLjpULiQKn6iso8kX97BuQqTAf2_FFn23ER5Dot_AtrZ8xK4w3S1FpBU-KGm3aEPGXpe9Ez2Y90FIrQgxhjNHSw5UoGEimfzKP8CBWIXVuAVnqyfITi0ym2XBVfarqAEIMAaCgYKAb8SARASFQHsvYlsDcolhEf34OJho4Gzg5z-QA0173', 
+      'Authorization' : 'Bearer ya29.a0AfB_byDNv0Na5mIl2lZbpT2SXcamLNZzJVKu-LL46Tqc4t-H9tSmtEJ3SIHAva5TvhlItcMXDnR-oW_3mNS1vt0F6cNfFBQSjKPjRfJtnkxhvsA36toOk4DJIRE_yil2ZuD8VixShXPCd1AcqCKvWlF5G-4sgCZM3RYTWwTQaCgYKAR4SARASFQHsvYls0jVXBoIWjNs92iwaXIW7Fw0175', 
       
       
     };

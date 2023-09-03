@@ -78,6 +78,7 @@ class _DriverCancelMessageDialogState extends State<DriverCancelMessageDialog> {
                   onPressed: (){
                     Navigator.pushNamed(context, '/main_screen');
                     SystemNavigator.pop();
+                    Navigator.pushNamed(context, '/main_screen');
                   },
 
                   style: ElevatedButton.styleFrom(

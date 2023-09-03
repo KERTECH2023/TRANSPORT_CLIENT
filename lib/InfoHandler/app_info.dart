@@ -7,7 +7,7 @@ class AppInfo extends ChangeNotifier{
   int? countTotalTrips;
   List<String> historyTripsKeyList = [];
   List<TripHistoryModel> historyInformationList = [];
-
+   String riderequeststatus ='';
   void updatePickupLocationAddress(Directions userPickupAddress){
     userPickupLocation = userPickupAddress;
     notifyListeners();
@@ -15,6 +15,10 @@ class AppInfo extends ChangeNotifier{
 
   void updateDropOffLocationAddress(Directions userDropOffAddress){
     userDropOffLocation = userDropOffAddress;
+    notifyListeners();
+  }
+    void updateriderequeststatus(String riderequeststatus){
+    riderequeststatus = riderequeststatus;
     notifyListeners();
   }
 

@@ -206,7 +206,7 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                     }
 
                     Navigator.pushNamed(context, "/main_screen");
-                    SystemNavigator.pop();
+                    
                   });
                 },
                 style: ElevatedButton.styleFrom(

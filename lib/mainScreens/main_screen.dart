@@ -62,7 +62,7 @@ class _MainScreenState extends State<MainScreen> {
   Position? userCurrentPosition;
   var geoLocator = Geolocator();
   LocationPermission? _locationPermission;
-
+  String riderequestid = "";
   List<LatLng> polyLineCoordinatesList = [];
   Set<Polyline> polyLineSet = {};
 
@@ -168,16 +168,16 @@ class _MainScreenState extends State<MainScreen> {
         });
       }
 
-      if ((snapshot.value as Map)["userName"] != null) {
+      if ((snapshot.value as Map)["driverName"] != null) {
         setState(() {
-          driverName = (snapshot.value as Map)["userName"].toString();
+          driverName = (snapshot.value as Map)["driverName"].toString();
         });
       }
      
 
-      if ((snapshot.value as Map)["userPhone"] != null) {
+      if ((snapshot.value as Map)["driverPhone"] != null) {
         setState(() {
-          driverPhone = (snapshot.value as Map)["userPhone"].toString();
+          driverPhone = (snapshot.value as Map)["driverPhone"].toString();
         });
       }
 
@@ -223,11 +223,14 @@ class _MainScreenState extends State<MainScreen> {
           if ((snapshot.value as Map)["fareAmount"] != null) {
             double fareAmount =
                 double.parse((snapshot.value as Map)["fareAmount"].toString());
+              driverName = driverName = (snapshot.value as Map)["userName"].toString();
+                
+             
             var response = await showDialog(
                 context: context,
                 barrierDismissible: false,
                 builder: (BuildContext context) {
-                  return PayFareDialog(fareAmount: fareAmount);
+                  return PayFareDialog(fareAmount: fareAmount, driverName: driverName, );
                 });
 
             if (response == "Cash Paid") {
@@ -380,7 +383,7 @@ class _MainScreenState extends State<MainScreen> {
         .child(chosenDriverId)
         .child("newRideStatus")
         .set(referenceRideRequest!.key);
-
+riderequestid = referenceRideRequest!.key!;
     // automate the push notifications
     FirebaseDatabase.instance
         .ref()
@@ -959,7 +962,18 @@ class _MainScreenState extends State<MainScreen> {
                           ),
 
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                            FirebaseDatabase.instance.ref()
+                              .child("AllRideRequests")
+                              .child(riderequestid)
+                              .child("status")
+                              .set("Cancelled");
+                           Provider.of<AppInfo>(context,listen: false).updateriderequeststatus("Cancelled");
+                          Navigator.pushNamed(context, "/main_screen");
+                          
+
+                      },
+                            
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.grey[200],
                               padding:
