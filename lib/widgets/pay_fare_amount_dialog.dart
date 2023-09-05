@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
+import 'package:users_app/models/directions.dart';
 
 class PayFareDialog extends StatefulWidget {
 
   double? fareAmount;
   String? driverName;
-  String? destinationAddress;
-  String? sourceAddress;
+  Directions? destinationAddress;
+  Directions? sourceAddress;
   PayFareDialog({this.fareAmount, this.driverName,this.destinationAddress,this.sourceAddress});
 
   @override

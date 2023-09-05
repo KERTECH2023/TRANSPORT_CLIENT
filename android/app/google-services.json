@@ -47,7 +47,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:721964679059:android:656d698965a1b6eb8a7266",
         "android_client_info": {
-          "package_name": "com.example.users_app"
+          "package_name": "transport.app.users_app"
         }
       },
       "oauth_client": [
@@ -55,7 +55,7 @@
           "client_id": "721964679059-ga270ihonb1fcu6c6koningi4fqkcnrb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.users_app",
+            "package_name": "transport.app.users_app",
             "certificate_hash": "764e64242b4f4d673bd4612066278692c26ccf9d"
           }
         },

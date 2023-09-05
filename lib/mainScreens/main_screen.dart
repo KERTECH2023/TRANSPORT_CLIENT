@@ -223,14 +223,12 @@ class _MainScreenState extends State<MainScreen> {
           if ((snapshot.value as Map)["fareAmount"] != null) {
             double fareAmount =
                 double.parse((snapshot.value as Map)["fareAmount"].toString());
-              driverName = driverName = (snapshot.value as Map)["userName"].toString();
-                
-             
+              driverName = (snapshot.value as Map)["driverName"].toString();
             var response = await showDialog(
                 context: context,
                 barrierDismissible: false,
                 builder: (BuildContext context) {
-                  return PayFareDialog(fareAmount: fareAmount, driverName: driverName, );
+                  return PayFareDialog(fareAmount: fareAmount, driverName: driverName, sourceAddress: sourceLocation , destinationAddress: destinationLocation,  );
                 });
 
             if (response == "Cash Paid") {
