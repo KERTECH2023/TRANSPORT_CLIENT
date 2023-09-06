@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../global/global.dart';
 import '../widgets/progress_dialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class _RegisterState extends State<Register> {
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController phoneTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
-   List<String> HealthStatus = ["Mentall Illnes", "Physicll Ilness","Both","None"];
+   List<String> HealthStatus = ["Physical Illness","None"];
     String? SelectHealthStatus;
   final _formKey = GlobalKey<FormState>();
 
@@ -91,8 +92,8 @@ class _RegisterState extends State<Register> {
               child: Column(
                 children: [
                   Image.asset("images/logofi.png"),
-                  const Text(
-                    "Register as an User",
+                  Text(
+                    AppLocalizations.of(context)!.loggingin,
                     style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
@@ -110,8 +111,8 @@ class _RegisterState extends State<Register> {
                     ),
 
                     decoration: InputDecoration(
-                      labelText: "Name",
-                      hintText: "Name",
+                      labelText:  AppLocalizations.of(context)!.name,
+                      hintText:  AppLocalizations.of(context)!.name,
                       prefixIcon: const Icon(Icons.person),
 
                       suffixIcon: nameTextEditingController.text.isEmpty
@@ -142,7 +143,7 @@ class _RegisterState extends State<Register> {
 
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "The field is empty";
+                        return  AppLocalizations.of(context)!.fieldIsEmpty;
                       }
 
                       else
@@ -161,8 +162,8 @@ class _RegisterState extends State<Register> {
                     ),
 
                     decoration: InputDecoration(
-                      labelText: "Email",
-                      hintText: "Email",
+                      labelText:  AppLocalizations.of(context)!.email,
+                      hintText:  AppLocalizations.of(context)!.emailHint,
 
                       prefixIcon: Icon(Icons.email),
                       suffixIcon: emailTextEditingController.text.isEmpty
@@ -194,11 +195,11 @@ class _RegisterState extends State<Register> {
 
                     validator: (value){
                       if(value!.isEmpty){
-                        return "The field is empty";
+                        return  AppLocalizations.of(context)!.fieldIsEmpty;
                       }
 
                       else if (!value.contains('@')) {
-                        return "Invalid Email Address";
+                        return  AppLocalizations.of(context)!.invalidEmailAddress;
                       }
 
                       else
@@ -218,8 +219,8 @@ class _RegisterState extends State<Register> {
                     ),
 
                     decoration: InputDecoration(
-                      labelText: "Phone Number",
-                      hintText: "Phone Number",
+                      labelText:  AppLocalizations.of(context)!.hint,
+                      hintText:  AppLocalizations.of(context)!.hint,
 
                       prefixIcon: Icon(Icons.phone),
                       suffixIcon: phoneTextEditingController.text.isEmpty
@@ -247,11 +248,11 @@ class _RegisterState extends State<Register> {
 
                     validator: (value){
                       if (value!.isEmpty) {
-                        return "The field is empty";
+                        return  AppLocalizations.of(context)!.fieldIsEmpty;
                       }
 
                       else if (value.length != 11) {
-                        return "Enter Correct Number";
+                        return AppLocalizations.of(context)!.correctnum;
                       }
 
                       else

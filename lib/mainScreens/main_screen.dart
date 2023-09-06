@@ -714,7 +714,7 @@ riderequestid = referenceRideRequest!.key!;
                   child: AnimatedTextKit(
                     animatedTexts: [
                       FadeAnimatedText(
-                        'Waiting for driver response\n from driver',
+                        (AppLocalizations.of(context)!.waitingd),
                         duration: const Duration(seconds: 10),
                         textAlign: TextAlign.center,
                         textStyle: const TextStyle(
@@ -723,7 +723,7 @@ riderequestid = referenceRideRequest!.key!;
                             fontWeight: FontWeight.bold),
                       ),
                       ScaleAnimatedText(
-                        'Please wait',
+                         (AppLocalizations.of(context)!.please),
                         duration: const Duration(seconds: 10),
                         textAlign: TextAlign.center,
                         textStyle: const TextStyle(
@@ -1030,7 +1030,7 @@ riderequestid = referenceRideRequest!.key!;
     showDialog(
         context: context,
         builder: (BuildContext context) => ProgressDialog(
-              message: 'Please wait..',
+              message: (AppLocalizations.of(context)!.waitingd),
             ));
 
     var directionDetailsInfo =

@@ -2,6 +2,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'otp_page.dart';
 
@@ -57,8 +58,8 @@ class _PhonesigninState extends State<Phonesignin> {
     String mobile = phoneController.text;
     if (mobile == "") {
       Get.snackbar(
-        "Please enter the mobile number!",
-        "Failed",
+        AppLocalizations.of(context)!.mobile,
+        AppLocalizations.of(context)!.otp,
         colorText: Colors.white,
       );
     } else {
@@ -121,7 +122,7 @@ class _PhonesigninState extends State<Phonesignin> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 200),
-              buildText('Add YourPhone Number '),
+              buildText(AppLocalizations.of(context)!.ajouternum),
               SizedBox(height: 50),
               Container(
                 margin: EdgeInsets.fromLTRB(30, 10, 30, 10),
@@ -142,7 +143,7 @@ class _PhonesigninState extends State<Phonesignin> {
                   decoration: InputDecoration(
                     fillColor: const Color(0xff2C474A),
                     filled: true,
-                    hintText: "Mobile number",
+                    hintText: AppLocalizations.of(context)!.ajouternum,
                     hintStyle: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
