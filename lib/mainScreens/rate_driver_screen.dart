@@ -211,7 +211,7 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.redAccent,
-                  padding: EdgeInsets.symmetric(horizontal: 74),
+                  padding: EdgeInsets.symmetric(horizontal: 20),
                 ),
                 child: const Text(
                   "Submit",

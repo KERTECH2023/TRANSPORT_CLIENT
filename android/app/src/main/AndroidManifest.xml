@@ -5,7 +5,7 @@
    
 
    <application
-        android:label="TuniseUber"
+        android:label="TunisieUber"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

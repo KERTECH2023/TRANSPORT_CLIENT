@@ -25,7 +25,7 @@ class _HistoryDesignUIState extends State<HistoryDesignUI> {
     return Container(
       color: Colors.white,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30,vertical: 18),
+        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -75,6 +75,7 @@ class _HistoryDesignUIState extends State<HistoryDesignUI> {
 
                 // Trip Distance
                 Column(
+                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
                       "Distance",
@@ -120,7 +121,7 @@ class _HistoryDesignUIState extends State<HistoryDesignUI> {
                     const SizedBox(height: 5),
 
                     Text(
-                      widget.tripHistoryModel!.fareAmount! + "TND",
+                      widget.tripHistoryModel!.fareAmount! + "TD",
                       style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
