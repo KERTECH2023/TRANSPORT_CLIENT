@@ -252,7 +252,13 @@ class _MainScreenState extends State<MainScreen> {
           }
         }
       }
-    });
+       AssistantMethods pushNotificationSystem = AssistantMethods();
+  
+    pushNotificationSystem.generateAndGetToken();
+    }
+     //currentFirebaseUser = firebaseAuth.currentUser;
+   
+    );
 
     onlineAvailableDriversList =
         GeoFireAssistant.activeNearbyAvailableDriversList;
@@ -448,6 +454,8 @@ riderequestid = referenceRideRequest!.key!;
   void initState() {
     super.initState();
     checkIfPermissionAllowed();
+    AssistantMethods pushNotificationSystem = AssistantMethods();
+    pushNotificationSystem.generateAndGetToken();
     AssistantMethods.readRideRequestKeys(context);
   }
 

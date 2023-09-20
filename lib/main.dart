@@ -1,4 +1,5 @@
 import 'dart:io';
+// import 'dart:html';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -6,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:users_app/InfoHandler/app_info.dart';
+import 'package:users_app/assistants/assistant_methods.dart';
 import 'package:users_app/authentication/phone_signin.dart';
 import 'package:users_app/mainScreens/rate_driver_screen.dart';
 import 'package:users_app/mainScreens/search_places_screen.dart';
@@ -19,8 +21,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // await AssistantMethods.initNotification();
 
+  await Firebase.initializeApp();
+  
   runApp(
     ChangeNotifierProvider(
       create: (context) => AppInfo(),
