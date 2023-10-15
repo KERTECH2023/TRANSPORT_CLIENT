@@ -56,7 +56,7 @@ class _SearchPlacesState extends State<SearchPlaces> {
     if (input.length > 1) {
       // Create Api Url to fetch Addresses
       String urlAutoCompleteSearch =
-          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=$mapKey&components=country:TN";
+          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=$mapKey";
       var responseAutoCompleteSearch =
           await RequestAssistant.ReceiveRequest(urlAutoCompleteSearch);
 

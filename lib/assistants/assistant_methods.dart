@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth_platform_interface/src/id_token_result.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -17,7 +18,7 @@ import 'package:users_app/global/map_key.dart';
 import 'package:users_app/models/direction_details_info.dart';
 import 'package:users_app/models/directions.dart';
 import 'package:users_app/models/trip_history_model.dart';
-
+import 'package:firebase_messaging/firebase_messaging.dart' as firebase_messaging;
 import '../InfoHandler/app_info.dart';
 import '../models/user_model.dart';
 
@@ -26,6 +27,26 @@ import '../models/user_model.dart';
 
 
 class AssistantMethods{
+  void requestNotificationPermission() async {
+  firebase_messaging.NotificationSettings settings =
+      await firebase_messaging.FirebaseMessaging.instance.requestPermission(
+    alert: true,
+    announcement: true,
+    badge: true,
+    carPlay: true,
+    criticalAlert: true,
+    provisional: true,
+    sound: true,
+  );
+
+  if (settings.authorizationStatus == firebase_messaging.AuthorizationStatus.authorized) {
+    print('User granted permission');
+  } else if (settings.authorizationStatus == firebase_messaging.AuthorizationStatus.provisional) {
+    print('User granted provisional permission');
+  } else {
+    print('User declined or has not accepted permission');
+  }
+}
 //  static Future<void> fetchAccessToken() async {
 //   final IdTokenResult? tokenResult = await firebaseAuth.currentUser?.getIdTokenResult();
 //   final String? idToken = tokenResult?.token;

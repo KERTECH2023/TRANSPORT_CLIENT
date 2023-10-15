@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
   final Completer<GoogleMapController> _controllerGoogleMap = Completer();
   GoogleMapController? newMapController;
   
-  
+    AssistantMethods notificationServices = AssistantMethods();
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(36.891696, 10.1815426),
     zoom: 9.4746,
@@ -79,16 +80,24 @@ class _MainScreenState extends State<MainScreen> {
   DatabaseReference? referenceRideRequest;
 
   String userName = "";
-  String driverRideStatus = "Your driver is coming in";
+  String driverRideStatus = "Your driver is comming in";
   double bottomPaddingofMap = 0;
   String rideRequestStatus = "";
 
   StreamSubscription<DatabaseEvent>? rideRequestInfoStreamSubscription;
+   void requestNotificationPermission() async {
+    var status = await Permission.notification.status;
+    if (status.isDenied) {
+      // You can also customize the message here
+      await Permission.notification.request();
+    }
+  }
 
   void checkIfPermissionAllowed() async {
     _locationPermission = await Geolocator.requestPermission();
     if (_locationPermission == LocationPermission.denied) {
       _locationPermission = await Geolocator.requestPermission();
+
     }
   }
 
@@ -453,7 +462,9 @@ riderequestid = referenceRideRequest!.key!;
   @override
   void initState() {
     super.initState();
+    notificationServices.requestNotificationPermission();
     checkIfPermissionAllowed();
+     requestNotificationPermission();
     AssistantMethods pushNotificationSystem = AssistantMethods();
     pushNotificationSystem.generateAndGetToken();
     AssistantMethods.readRideRequestKeys(context);
