@@ -56,6 +56,13 @@
 	</array>
 	<key>LSApplicationQueriesSchemes</key>
 <array>
+    <string>https</string>
+    <string>http</string>
+    <string>tel</string>
+    <string>mailto</string>
+</array> 
+	<key>LSApplicationQueriesSchemes</key>
+<array>
   <string>sms</string>
   <string>tel</string>
 </array>

@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../global/global.dart';
 import '../widgets/progress_dialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class reclamation extends StatefulWidget {
   const reclamation({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class _reclamationState extends State<reclamation> {
     DatabaseReference ReclamationRef = FirebaseDatabase.instance.ref().child("Reclamation");
    ReclamationRef.child(currentFirebaseUser!.uid).set(driverCarInfoMap);
 
-    Fluttertoast.showToast(msg: "Reclamation Has been Added Successfully");
+    Fluttertoast.showToast(msg: AppLocalizations.of(context)!.reclamatioHasbeenAddedSuccessfully);
     Navigator.pushNamed(context, '/');
   }
 
@@ -58,8 +59,8 @@ class _reclamationState extends State<reclamation> {
 
               const SizedBox(height: 10,),
 
-              const Text(
-                "Add your Reclamation",
+               Text(
+                AppLocalizations.of(context)!.addyourComplaint,
                 style: TextStyle(
                   fontSize: 26,
                   color: Colors.black,
@@ -74,8 +75,8 @@ class _reclamationState extends State<reclamation> {
                     ),
 
                     decoration: InputDecoration(
-                      labelText: "Full Name",
-                      hintText: "Full Name",
+                      labelText: AppLocalizations.of(context)!.name,
+                      hintText: AppLocalizations.of(context)!.nameHint,
 
                       prefixIcon: Icon(Icons.person_2),
                       suffixIcon: nameTextEditingController.text.isEmpty
@@ -107,7 +108,7 @@ class _reclamationState extends State<reclamation> {
 
                     validator: (value){
                       if(value!.isEmpty){
-                        return "The field is empty";
+                        return AppLocalizations.of(context)!.fieldIsEmpty;
                       }
 
                       else {
@@ -127,8 +128,8 @@ class _reclamationState extends State<reclamation> {
                     ),
 
                     decoration: InputDecoration(
-                      labelText: "Email",
-                      hintText: "Email",
+                      labelText: AppLocalizations.of(context)!.email,
+                      hintText: AppLocalizations.of(context)!.emailHint,
 
                       prefixIcon: Icon(Icons.email),
                       suffixIcon: emailTextEditingController.text.isEmpty
@@ -160,11 +161,11 @@ class _reclamationState extends State<reclamation> {
 
                     validator: (value){
                       if(value!.isEmpty){
-                        return "The field is empty";
+                        return AppLocalizations.of(context)!.fieldIsEmpty;
                       }
 
                       else if (!value.contains('@')) {
-                        return "Invalid Email Address";
+                        return AppLocalizations.of(context)!.invalidEmailAddress;
                       }
 
                       else {
@@ -184,8 +185,8 @@ class _reclamationState extends State<reclamation> {
                     ),
 
                     decoration: InputDecoration(
-                      labelText: "Phone Number",
-                      hintText: "Phone Number",
+                      labelText: AppLocalizations.of(context)!.phoneNumber,
+                      hintText: AppLocalizations.of(context)!.phoneNumber,
 
                       prefixIcon: Icon(Icons.phone),
                       suffixIcon: phoneTextEditingController.text.isEmpty
@@ -217,11 +218,11 @@ class _reclamationState extends State<reclamation> {
 
                     validator: (value){
                       if(value!.isEmpty){
-                        return "The field is empty";
+                        return AppLocalizations.of(context)!.fieldIsEmpty;
                       }
 
-                      else if (!value.contains('@')) {
-                        return "The Phone Number must have 13 digits";
+                      else if (value.length != 11) {
+                        return AppLocalizations.of(context)!.correctnum;
                       }
 
                       else {
@@ -239,8 +240,8 @@ class _reclamationState extends State<reclamation> {
                     ),
 
                     decoration: InputDecoration(
-                      labelText: "Reclamation",
-                      hintText: "Reclamation",
+                      labelText: AppLocalizations.of(context)!.reclamation,
+                      hintText: AppLocalizations.of(context)!.reclamation,
 
                       prefixIcon: Icon(Icons.report),
                       suffixIcon: reclamationTextEditingController.text.isEmpty
@@ -272,7 +273,7 @@ class _reclamationState extends State<reclamation> {
 
                     validator: (value){
                       if(value!.isEmpty){
-                        return "The field is empty";
+                        return AppLocalizations.of(context)!.fieldIsEmpty;
                       }
 
 
@@ -299,8 +300,8 @@ class _reclamationState extends State<reclamation> {
                 style: ElevatedButton.styleFrom(
                   primary: Colors.black,
                 ),
-                child: const Text(
-                  "Save",
+                child:  Text(
+                  AppLocalizations.of(context)!.submit,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,

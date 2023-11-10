@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -55,7 +56,14 @@ class _LoginState extends State<Login> {
             )
             .catchError((message) {
           Navigator.pop(context);
-          Fluttertoast.showToast(msg: "${AppLocalizations.of(context)!.error} $message");
+           AwesomeDialog(
+      context: context,
+      dialogType: DialogType.error,
+      animType: AnimType.rightSlide,
+      title: AppLocalizations.of(context)!.eerror,
+      desc: "${AppLocalizations.of(context)!.wrongCredentials}"
+    ).show();
+          
         }))
         .user;
 
@@ -228,14 +236,64 @@ class _LoginState extends State<Login> {
                       labelText: AppLocalizations.of(context)!.password,
                       hintText: AppLocalizations.of(context)!.password,
                       prefixIcon: Icon(Icons.password),
-                      // ...
+                     
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return AppLocalizations.of(context)!.fieldIsEmpty;
-                      } else
+                      } else {
                         return null;
+                      }
                     },
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      if (emailTextEditingController.text == ""){
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.error,
+                          animType: AnimType.rightSlide,
+                          title: AppLocalizations.of(context)!.eerror,
+                          desc: AppLocalizations.of(context)!.pleasefilloutyouremailthenlickForgetpass,
+                          ).show();
+                          return;
+                          }
+                          try {
+                      await FirebaseAuth.instance.sendPasswordResetEmail(email: emailTextEditingController.text);
+                         AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.success,
+                          animType: AnimType.rightSlide,
+                          title: AppLocalizations.of(context)!.succes,
+                          desc: AppLocalizations.of(context)!.mailhasbeensenttoouremail,
+                          ).show();
+                          } catch (e){
+                             AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.error,
+                          animType: AnimType.rightSlide,
+                          title: AppLocalizations.of(context)!.eerror,
+                          desc: AppLocalizations.of(context)!.pleaseverifytheemailthatyouhaveentered,
+                          ).show();
+
+
+                          }
+
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 10, bottom:  20),
+                      alignment:Alignment.topRight,
+                      child:  Text(
+                        AppLocalizations.of(context)!.forgetpassword,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                  
+                  
+                  
+                    ),
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(

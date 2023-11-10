@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:users_app/global/map_key.dart';
 import 'package:users_app/models/predicted_places.dart';
 import 'package:users_app/widgets/placesPredictionTileDesign.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../InfoHandler/app_info.dart';
 import '../assistants/request_assistant.dart';
 
@@ -26,7 +26,7 @@ class _SearchPlacesState extends State<SearchPlaces> {
     if (input.length > 1) {
       // Create Api Url to fetch Addresses
       String urlAutoCompleteSearch =
-          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=$mapKey&components=country:TN";
+          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=$mapKey";
       var responseAutoCompleteSearch =
           await RequestAssistant.ReceiveRequest(urlAutoCompleteSearch);
 
@@ -119,9 +119,9 @@ class _SearchPlacesState extends State<SearchPlaces> {
                             color: Colors.black,
                           ),
                         ),
-                        const Center(
+                         Center(
                           child: Text(
-                            "Search Dropoff Location",
+                            AppLocalizations.of(context)!.selectyourdes,
                             style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
@@ -151,7 +151,7 @@ class _SearchPlacesState extends State<SearchPlaces> {
                                     ? Provider.of<AppInfo>(context)
                                         .userPickupLocation!
                                         .locationName!
-                                    : "No Address found",
+                                    :  AppLocalizations.of(context)!.noaddr,
                                 fillColor: Colors.grey.shade100,
                                 filled: true,
                                 enabledBorder: OutlineInputBorder(
@@ -212,7 +212,7 @@ class _SearchPlacesState extends State<SearchPlaces> {
                               findPlaceAutoCompleteSearch(textTyped);
                             },
                             decoration: InputDecoration(
-                                hintText: "Where to?",
+                                hintText:  AppLocalizations.of(context)!.whereto,
                                 fillColor: Colors.grey.shade100,
                                 filled: true,
                                 enabledBorder: OutlineInputBorder(

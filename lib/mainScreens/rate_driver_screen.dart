@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smooth_star_rating_nsafe/smooth_star_rating.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../global/global.dart';
 
 class RateDriverScreen extends StatefulWidget {
@@ -29,8 +29,8 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
-        title: const Text(
-          "Rate Driver",
+        title:  Text(
+           AppLocalizations.of(context)!.rateDriver,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 15,
@@ -45,8 +45,8 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
           style: ElevatedButton.styleFrom(
             primary: Colors.white,
           ),
-          child: const Text(
-            "Skip",
+          child:  Text(
+            AppLocalizations.of(context)!.skip,
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -93,8 +93,8 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
 
               const SizedBox(height: 15.0,),
 
-              const Text(
-                "Your feedback will improve your ride\nexperience",
+               Text(
+                AppLocalizations.of(context)!.yourfeedbackwillimproveyourridenexperience,
                 style: TextStyle(
                     color: Colors.grey,
                     fontSize: 14,
@@ -166,7 +166,7 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                 child: TextField(
                   controller: commentController,
                   decoration: InputDecoration(
-                    labelText: "Add a Comment (optional)",
+                    labelText:  AppLocalizations.of(context)!.addaCommentoptional,
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -213,8 +213,8 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                   primary: Colors.redAccent,
                   padding: EdgeInsets.symmetric(horizontal: 20),
                 ),
-                child: const Text(
-                  "Submit",
+                child:  Text(
+                  AppLocalizations.of(context)!.submit,
                   
                   style: TextStyle(
                     fontSize: 16,

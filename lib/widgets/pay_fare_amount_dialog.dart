@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
 import 'package:users_app/models/directions.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class PayFareDialog extends StatefulWidget {
 
   double? fareAmount;
@@ -58,8 +58,8 @@ class _PayFareDialogState extends State<PayFareDialog> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                "Trip Fare Amount",
+               Text(
+                AppLocalizations.of(context)!.tripFareAmount,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -69,8 +69,8 @@ class _PayFareDialogState extends State<PayFareDialog> {
 
               const SizedBox(height: 30),
 
-              const Text(
-                "Pay Driver",
+               Text(
+                AppLocalizations.of(context)!.paydriver,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 20,
@@ -125,8 +125,8 @@ class _PayFareDialogState extends State<PayFareDialog> {
                     primary: Colors.redAccent
                   ),
 
-                  child: const Text(
-                    "Pay cash",
+                  child:  Text(
+                    AppLocalizations.of(context)!.paycash,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20,

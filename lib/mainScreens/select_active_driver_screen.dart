@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:smooth_star_rating_nsafe/smooth_star_rating.dart';
 import 'package:users_app/assistants/assistant_methods.dart';
 import 'package:users_app/global/global.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SelectActiveDriverScreen extends StatefulWidget {
 
   static DatabaseReference? referenceRideRequest;
@@ -32,8 +32,8 @@ class _SelectActiveDriverScreenState extends State<SelectActiveDriverScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text(
-          "Select Nearest Driver",
+        title:  Text(
+          AppLocalizations.of(context)!.selectNearestDriver,
           style: TextStyle(fontSize: 18),
         ),
         leading: IconButton(
@@ -42,7 +42,7 @@ class _SelectActiveDriverScreenState extends State<SelectActiveDriverScreen> {
             // remove ride request from Database
             SelectActiveDriverScreen.referenceRideRequest!.remove();
 
-            Fluttertoast.showToast(msg: "You have cancelled the ride request");
+            Fluttertoast.showToast(msg:  AppLocalizations.of(context)!.youhavecancelledtheriderequest,);
             SystemNavigator.pop();
           },
         ),
@@ -105,7 +105,7 @@ class _SelectActiveDriverScreenState extends State<SelectActiveDriverScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "TD " + getFareAmountAccordingToVehicleType(index).toString().substring(0,3),
+                       AppLocalizations.of(context)!.dinar + getFareAmountAccordingToVehicleType(index).toString().substring(0,3),
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
 

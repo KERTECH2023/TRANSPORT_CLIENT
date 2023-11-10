@@ -40,7 +40,7 @@ class _RegisterState extends State<Register> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context){
-          return ProgressDialog(message: "Processing, Please wait");
+          return ProgressDialog(message:AppLocalizations.of(context)!.processingPleasewait);
         }
     );
 
@@ -50,7 +50,7 @@ class _RegisterState extends State<Register> {
             password:passwordTextEditingController.text.trim()
         ).catchError((message){
           Navigator.pop(context);
-          Fluttertoast.showToast(msg: "Error" + message);
+          Fluttertoast.showToast(msg: AppLocalizations.of(context)!.error + message);
         })
     ).user;
 
@@ -67,14 +67,14 @@ class _RegisterState extends State<Register> {
       databaseReference.child(firebaseUser.uid).set(userMap);
 
       currentFirebaseUser = firebaseUser;
-      Fluttertoast.showToast(msg: "Account has been created");
+      Fluttertoast.showToast(msg: AppLocalizations.of(context)!.accounthasbeencreated);
       Navigator.pushNamed(context, '/');
 
     }
 
     else{
       Navigator.pop(context);
-      Fluttertoast.showToast(msg: "Account has not been created");
+      Fluttertoast.showToast(msg: AppLocalizations.of(context)!.accounthasnotbeencreated);
     }
   }
 
@@ -271,8 +271,8 @@ class _RegisterState extends State<Register> {
                       color: Colors.black,
                     ),
                     decoration: InputDecoration(
-                      labelText: "Password",
-                      hintText: "Password",
+                      labelText: AppLocalizations.of(context)!.password,
+                      hintText: AppLocalizations.of(context)!.password,
                       prefixIcon: const Icon(Icons.lock),
                       suffixIcon: IconButton(
                           icon: isPasswordVisible ?
@@ -313,11 +313,11 @@ class _RegisterState extends State<Register> {
 
                     validator: (value){
                       if (value!.isEmpty) {
-                        return "The field is empty";
+                        return AppLocalizations.of(context)!.fieldIsEmpty;
                       }
 
                       else if (value.length < 6) {
-                        return "Password too short";
+                        return AppLocalizations.of(context)!.passwordtooshort;
                       }
 
                       else
@@ -330,8 +330,8 @@ class _RegisterState extends State<Register> {
                       DropdownButton(
                 iconSize: 26,
                 dropdownColor: Colors.white,
-                hint: const Text(
-                  "Please Select Your Health Status",
+                hint: Text(
+                  AppLocalizations.of(context)!.pleaseSelectYourHealthStatus,
                   style: TextStyle(
                     fontSize: 14.0,
                     color: Colors.black,
@@ -364,8 +364,8 @@ class _RegisterState extends State<Register> {
                           saveUserInfo();
                         }
                       },
-                      child: const Text(
-                        "Next",
+                      child:  Text(
+                         AppLocalizations.of(context)!.next,
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       )),
 
@@ -373,8 +373,8 @@ class _RegisterState extends State<Register> {
                       onPressed: (){
                         Navigator.pushNamed(context, '/login_screen');
                       },
-                      child: const Text(
-                        "Already have an account? Login Now",
+                      child:  Text(
+                        AppLocalizations.of(context)!.alreadyhaveanaccountLoginNow,
                         style: TextStyle(color: Colors.black),
                       )
                   )

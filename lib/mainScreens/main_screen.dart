@@ -534,27 +534,27 @@ riderequestid = referenceRideRequest!.key!;
           ),
 
           // Button for Drawer
-          Positioned(
-            top: 35,
-            left: 15,
-            child: GestureDetector(
-              onTap: () {
-                if (openNavigationDrawer) {
-                  sKey.currentState!.openDrawer();
-                } else {
-                  // Restart - Refresh - Minimize App Programmatically
-                  SystemNavigator.pop();
-                }
-              },
-              child: CircleAvatar(
-                backgroundColor: Colors.white70,
-                child: Icon(
-                  openNavigationDrawer ? Icons.menu : Icons.close,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   top: 35,
+          //   left: 15,
+            // child: GestureDetector(
+            //   onTap: () {
+            //     if (openNavigationDrawer) {
+            //       sKey.currentState!.openDrawer();
+            //     } else {
+            //       // Restart - Refresh - Minimize App Programmatically
+            //       SystemNavigator.pop();
+            //     }
+            //   },
+            //   child: CircleAvatar(
+            //     backgroundColor: Colors.white70,
+            //     child: Icon(
+            //       openNavigationDrawer ? Icons.menu : Icons.close,
+            //       color: Colors.black,
+            //     ),
+            //   ),
+            // ),
+          // ),
 
           //UI to search location
           Positioned(
@@ -996,8 +996,8 @@ riderequestid = referenceRideRequest!.key!;
                               padding:
                                   const EdgeInsets.fromLTRB(60, 15, 60, 15),
                             ),
-                            child: const Text(
-                              "Cancel",
+                            child:  Text(
+                              AppLocalizations.of(context)!.cancel,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,

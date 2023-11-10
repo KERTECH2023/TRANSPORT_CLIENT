@@ -47,7 +47,7 @@ class _OtpPageState extends State<OtpPage> {
     } on FirebaseAuthException catch (e) {
       Get.snackbar(
         e.message.toString(),
-        "Failed",
+        AppLocalizations.of(context)!.eerror,
         colorText: Colors.white,
       );
     }

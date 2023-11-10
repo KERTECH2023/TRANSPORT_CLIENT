@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class DriverCancelMessageDialog extends StatefulWidget {
   const DriverCancelMessageDialog({Key? key}) : super(key: key);
 
@@ -31,8 +31,8 @@ class _DriverCancelMessageDialogState extends State<DriverCancelMessageDialog> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                "Trip Message",
+               Text(
+               AppLocalizations.of(context)!.tripMessage,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -42,8 +42,8 @@ class _DriverCancelMessageDialogState extends State<DriverCancelMessageDialog> {
 
               const SizedBox(height: 30),
 
-              const Text(
-                "Driver has cancelled your trip",
+               Text(
+                AppLocalizations.of(context)!.driverhascancelledyourtrip,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 18,
@@ -54,8 +54,8 @@ class _DriverCancelMessageDialogState extends State<DriverCancelMessageDialog> {
 
               const SizedBox(height: 20),
 
-              const Text(
-                "Ride Status:\n Cancelled",
+               Text(
+                 AppLocalizations.of(context)!.rideStatusCancelled,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 30,
@@ -84,8 +84,8 @@ class _DriverCancelMessageDialogState extends State<DriverCancelMessageDialog> {
                       primary: const Color.fromRGBO(0 , 177 , 118, 1)
                   ),
 
-                  child: const Text(
-                    "Okay",
+                  child:  Text(
+                    AppLocalizations.of(context)!.submit,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 20,

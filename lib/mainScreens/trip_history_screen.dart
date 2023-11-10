@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:users_app/widgets/history_design_UI.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../InfoHandler/app_info.dart';
 
 class TripHistoryScreen extends StatefulWidget {
@@ -20,8 +20,8 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: const Text(
-            "Ride History"
+        title:  Text(
+            AppLocalizations.of(context)!.history
         ),
         leading: IconButton(
           icon: const Icon(Icons.close),
