@@ -149,6 +149,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 0, 0, 0),
         title: Text(AppLocalizations.of(context)!.homePage),
         actions: <Widget>[
           Padding(
@@ -213,7 +214,30 @@ class _LoginState extends State<Login> {
                       labelText: AppLocalizations.of(context)!.email,
                       hintText: AppLocalizations.of(context)!.emailHint,
                       prefixIcon: Icon(Icons.email),
-                      // ...
+                      suffixIcon: emailTextEditingController.text.isEmpty ?
+                          Container(width: 0) :
+                          IconButton(
+                            icon: const Icon(Icons.close),
+                            onPressed: () => emailTextEditingController.clear(),
+                          ),
+
+                      // enabledBorder: const OutlineInputBorder(
+                      //   borderSide: BorderSide(color: Colors.black),
+                      // ),
+
+                      // focusedBorder: const UnderlineInputBorder(
+                      //   borderSide: BorderSide(color: Colors.black),
+                      // ),
+
+                      // hintStyle: const TextStyle(
+                      //     color: Colors.grey,
+                      //     fontSize: 10
+                      // ),
+
+                      // labelStyle: const TextStyle(
+                      //     color: Colors.black,
+                      //     fontSize: 15
+                      // ),
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {

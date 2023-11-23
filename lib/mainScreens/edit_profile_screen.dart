@@ -23,29 +23,47 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           Column(
             children: [
               Container(
-                height: 150,
+                height: 50,
                 decoration: const BoxDecoration(
                   color: Colors.black,
                 ),
               ),
-
               Expanded(
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        topLeft: Radius.circular(20),
-                      )
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                    ),
                   ),
-
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       const SizedBox(height: 60,),
-
+                      // Displaying User's Profile Picture
+                      Center(
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey[200],
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.white,
+                            ),
+                          ),
+                          child: currentUserInfo?.photoUrl != null
+                              ? CircleAvatar(
+                                  radius: 40,
+                                  backgroundImage: NetworkImage(currentUserInfo!.photoUrl!),
+                                )
+                              : const Icon(Icons.person),
+                        ),
+                      ),
+                      const SizedBox(height: 20,),
                       Center(
                         child: Text(
                           currentUserInfo!.name!,
@@ -55,38 +73,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                         ),
                       ),
-
-
                       Center(
                         child: TextButton(
                           onPressed: () {
-                           
+                            // Handle button press
                           },
-                          child: Text(
-                              'Total Trips: ${Provider.of<AppInfo>(context,listen: false).countTotalTrips}',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Colors.grey[600],
-                              )
-                          ),
+                         child: Text(
+                        'Total Trips: ${Provider.of<AppInfo>(context, listen: false).countTotalTrips ?? 0}',
+                                  style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
                         ),
                       ),
-
                       const SizedBox(height: 40,),
-
                       // Name
                       Text(
                         AppLocalizations.of(context)!.name,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
-                          color: Colors.grey[600]
+                          color: Colors.grey[600],
                         ),
                       ),
-
                       const SizedBox(height: 15,),
-
                       // Name - Value
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,15 +114,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ),
                             ],
                           ),
-
                           const Icon(Icons.arrow_forward_ios),
-
                         ],
                       ),
-
                       const SizedBox(height: 2,),
-
-                     const Divider(
+                      const Divider(
                         thickness: 1,
                       ),
 
@@ -242,22 +250,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ],
           ),
 
-          Positioned(
-            top: 100,
-            child: Container(
-              height: 100,
-              width: 100,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.grey[200],
-                  border: Border.all(
-                    width: 2,
-                    color: Colors.white,
-                  )
-              ),
-              child: Icon(Icons.person),
-            ),
-          ),
+          // Positioned(
+          //   top: 100,
+          //   child: Container(
+          //     height: 100,
+          //     width: 100,
+          //     decoration: BoxDecoration(
+          //         shape: BoxShape.circle,
+          //         color: Colors.grey[200],
+          //         border: Border.all(
+          //           width: 2,
+          //           color: Colors.white,
+          //         )
+          //     ),
+          //     child: Icon(Icons.person),
+          //   ),
+          // ),
 
 
 

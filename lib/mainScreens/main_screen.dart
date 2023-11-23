@@ -466,7 +466,7 @@ riderequestid = referenceRideRequest!.key!;
     checkIfPermissionAllowed();
      requestNotificationPermission();
     AssistantMethods pushNotificationSystem = AssistantMethods();
-    pushNotificationSystem.generateAndGetToken();
+    // pushNotificationSystem.generateAndGetToken();
     AssistantMethods.readRideRequestKeys(context);
   }
 
@@ -475,6 +475,7 @@ riderequestid = referenceRideRequest!.key!;
     createActiveDriverIconMarker();
     return Scaffold(
        appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 0, 0, 0),
         title: Text(AppLocalizations.of(context)!.homePage),
         actions: <Widget>[
           Padding(

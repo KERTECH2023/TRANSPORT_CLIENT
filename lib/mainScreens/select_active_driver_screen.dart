@@ -68,7 +68,7 @@ class _SelectActiveDriverScreenState extends State<SelectActiveDriverScreen> {
                 leading: Padding(
                   padding: const EdgeInsets.only(top: 2.0),
                   child: Image.asset(
-                     "images/" + driversList[index]["carDetails"]["carType"] + ".png",
+                     "${"images/" + driversList[index]["carDetails"]["carType"]}.png",
                   ),
                 ),
 
