@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:smooth_star_rating_nsafe/smooth_star_rating.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:users_app/models/user_model.dart';
 import '../global/global.dart';
 
 class RateDriverScreen extends StatefulWidget {
@@ -19,9 +19,26 @@ class RateDriverScreen extends StatefulWidget {
 
 class _RateDriverScreenState extends State<RateDriverScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  TextEditingController commentController = TextEditingController(); // Added
-  double countRatingStars = 0; // Added
-  String titleStarsRating = "Excellent"; // Added
+  TextEditingController commentController = TextEditingController();
+  double countRatingStars = 0;
+  String titleStarsRating = "Excellent";
+  String? currentUserDisplayName;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentUserDisplayName();
+  }
+
+  Future<void> _getCurrentUserDisplayName() async {
+    UserModel? currentUser = currentUserInfo;
+
+    if (currentUser != null) {
+      setState(() {
+        currentUserDisplayName = currentUser.name;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +46,8 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
-        title:  Text(
-           AppLocalizations.of(context)!.rateDriver,
+        title: Text(
+          AppLocalizations.of(context)!.rateDriver,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 15,
@@ -45,7 +62,7 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
           style: ElevatedButton.styleFrom(
             primary: Colors.white,
           ),
-          child:  Text(
+          child: Text(
             AppLocalizations.of(context)!.skip,
             style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -71,29 +88,24 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(height: 5.0),
-            CircleAvatar(
+              CircleAvatar(
                 backgroundColor: Colors.white,
                 child: Image.asset(
                   "images/Passport_Photo.jpg",
                 ),
                 radius: 60,
               ),
-
               const SizedBox(height: 20.0,),
-
-              // Driver Name
               Text(
-                driverName,
+                widget.driverName!,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
                   fontWeight: FontWeight.bold
                 ),
               ),
-
               const SizedBox(height: 15.0,),
-
-               Text(
+              Text(
                 AppLocalizations.of(context)!.yourfeedbackwillimproveyourridenexperience,
                 style: TextStyle(
                     color: Colors.grey,
@@ -101,9 +113,7 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                     fontWeight: FontWeight.bold
                 ),
               ),
-
               const SizedBox(height: 10.0,),
-
               SmoothStarRating(
                 rating: countRatingStars,
                 allowHalfRating: false,
@@ -111,45 +121,37 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                 color: Colors.orange,
                 borderColor: Colors.orange,
                 size: 40,
-                onRatingChanged: (starsChosen)
-                {
+                onRatingChanged: (starsChosen) {
                   countRatingStars = starsChosen;
 
-                  if(countRatingStars == 1)
-                  {
+                  if(countRatingStars == 1) {
                     setState(() {
                       titleStarsRating = "Very Bad";
                     });
                   }
-                  if(countRatingStars == 2)
-                  {
+                  if(countRatingStars == 2) {
                     setState(() {
                       titleStarsRating = "Bad";
                     });
                   }
-                  if(countRatingStars == 3)
-                  {
+                  if(countRatingStars == 3) {
                     setState(() {
                       titleStarsRating = "Good";
                     });
                   }
-                  if(countRatingStars == 4)
-                  {
+                  if(countRatingStars == 4) {
                     setState(() {
                       titleStarsRating = "Very Good";
                     });
                   }
-                  if(countRatingStars == 5)
-                  {
+                  if(countRatingStars == 5) {
                     setState(() {
                       titleStarsRating = "Excellent";
                     });
                   }
                 },
               ),
-
               const SizedBox(height: 10.0,),
-
               Text(
                 titleStarsRating,
                 style: const TextStyle(
@@ -158,9 +160,7 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                   color: Colors.orange,
                 ),
               ),
-
               const SizedBox(height: 15.0,),
-              // Add a text field for comments
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TextField(
@@ -171,9 +171,7 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 15.0),
-
               ElevatedButton(
                 onPressed: () {
                   DatabaseReference rateDriverRef =
@@ -193,36 +191,35 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                       rateDriverRef.set(newAverageRatings.toString());
                     }
 
-                    // Save the comment to Firebase
+                    // Save the comment to Firebase with the user's name
                     String comment = commentController.text;
-                    if (comment.isNotEmpty) {
+                    if (comment.isNotEmpty && currentUserDisplayName != null) {
                       DatabaseReference commentRef =
                           FirebaseDatabase.instance.ref()
                               .child("Drivers")
                               .child(widget.assignedDriverId!)
                               .child("comments")
                               .push();
-                      commentRef.set(comment);
+                      commentRef.set({
+                        'comment': comment,
+                        'user': currentUserDisplayName,
+                      });
                     }
 
                     Navigator.pushNamed(context, "/main_screen");
-                    
                   });
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.redAccent,
                   padding: EdgeInsets.symmetric(horizontal: 20),
                 ),
-                child:  Text(
+                child: Text(
                   AppLocalizations.of(context)!.submit,
-                  
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
-                    
                   ),
-                  
                 ),
               ),
               const SizedBox(height: 10.0),
@@ -233,5 +230,3 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
     );
   }
 }
-
-

@@ -7,11 +7,9 @@ import 'package:smooth_star_rating_nsafe/smooth_star_rating.dart';
 import 'package:users_app/assistants/assistant_methods.dart';
 import 'package:users_app/global/global.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class SelectActiveDriverScreen extends StatefulWidget {
-
   static DatabaseReference? referenceRideRequest;
-
-  //SelectActiveDriverScreen({this.referenceRideRequest});
 
   @override
   State<SelectActiveDriverScreen> createState() => _SelectActiveDriverScreenState();
@@ -20,10 +18,11 @@ class SelectActiveDriverScreen extends StatefulWidget {
 class _SelectActiveDriverScreenState extends State<SelectActiveDriverScreen> {
   double? fareAmount;
 
-  double? getFareAmountAccordingToVehicleType(int index){
-    String vehicleType = driversList[index]["carDetails"]["carType"];
-    fareAmount = AssistantMethods.calculateFareAmountFromSourceToDestination(tripDirectionDetailsInfo!,vehicleType);
-    return fareAmount;
+  double? getFareAmountAccordingToVehicleType(int index) {
+    String? vehicleType = driversList[index]?["carDetails"]?["carType"];
+    return vehicleType != null
+        ? AssistantMethods.calculateFareAmountFromSourceToDestination(tripDirectionDetailsInfo!, vehicleType)
+        : null;
   }
 
   @override
@@ -32,32 +31,31 @@ class _SelectActiveDriverScreenState extends State<SelectActiveDriverScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title:  Text(
+        title: Text(
           AppLocalizations.of(context)!.selectNearestDriver,
           style: TextStyle(fontSize: 18),
         ),
         leading: IconButton(
           icon: Icon(Icons.close, color: Colors.black,),
           onPressed: () {
-            // remove ride request from Database
             SelectActiveDriverScreen.referenceRideRequest!.remove();
-
-            Fluttertoast.showToast(msg:  AppLocalizations.of(context)!.youhavecancelledtheriderequest,);
+            Fluttertoast.showToast(msg: AppLocalizations.of(context)!.youhavecancelledtheriderequest);
             SystemNavigator.pop();
           },
         ),
       ),
-
       body: ListView.builder(
         itemCount: driversList.length,
-        itemBuilder: (BuildContext context,int index){
+        itemBuilder: (BuildContext context, int index) {
+          String? vehicleType = driversList[index]?["carDetails"]?["carType"];
+          double? fareAmount = getFareAmountAccordingToVehicleType(index);
+
           return GestureDetector(
-            onTap: (){
-              
+            onTap: () {
               setState(() {
-                chosenDriverId = driversList[index]["id"].toString();
+                chosenDriverId = driversList[index]?["id"]?.toString() ?? "";
               });
-              Navigator.pop(context,"Driver chosen");
+              Navigator.pop(context, "Driver chosen");
             },
             child: Card(
               color: Colors.white,
@@ -71,69 +69,51 @@ class _SelectActiveDriverScreenState extends State<SelectActiveDriverScreen> {
                      "${"images/" + driversList[index]["carDetails"]["carType"]}.png",
                   ),
                 ),
-
                 title: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      driversList[index]["name"],
-                      style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.black
-                      ),
+                      driversList[index]?["name"]?.toString() ?? "",
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                     ),
                     Text(
-                      driversList[index]["carDetails"]["carType"],
-                      style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.black
-                      ),
+                      vehicleType ?? "",
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                     ),
-
                     SmoothStarRating(
-                        rating: driversList[index]["ratings"] == null ? 0.0 : double.parse(driversList[index]["ratings"]),
-                        allowHalfRating: true,
-                        starCount: 5,
-                        size: 15.0,
-                        color: Colors.black,
-                        borderColor: Colors.black,
-                    )
+                      rating: driversList[index]?["ratings"] == null
+                          ? 0.0
+                          : double.parse(driversList[index]?["ratings"]?.toString() ?? "0.0"),
+                      allowHalfRating: true,
+                      starCount: 5,
+                      size: 15.0,
+                      color: Colors.black,
+                      borderColor: Colors.black,
+                    ),
                   ],
                 ),
-
                 trailing: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                       AppLocalizations.of(context)!.dinar + getFareAmountAccordingToVehicleType(index).toString().substring(0,3),
+                      AppLocalizations.of(context)!.dinar + getFareAmountAccordingToVehicleType(index).toString().substring(0,3),
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-
                     const SizedBox(height: 5),
-
                     Text(
-                      tripDirectionDetailsInfo != null ?
-                          (tripDirectionDetailsInfo!.duration_text!).toString() : "",
-                      style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 12),
+                      tripDirectionDetailsInfo != null ? (tripDirectionDetailsInfo!.duration_text!).toString() : "",
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                     ),
-
                     const SizedBox(height: 5),
-
                     Text(
-                      tripDirectionDetailsInfo != null ?
-                      (tripDirectionDetailsInfo!.distance_text!).toString() : "",
-                      style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 12),
+                      tripDirectionDetailsInfo != null ? (tripDirectionDetailsInfo!.distance_text!).toString() : "",
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                     ),
-
-                  ]
-
-                  ),
-
+                  ],
+                ),
               ),
-
             ),
           );
-
         },
       ),
     );
