@@ -13,6 +13,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating_nsafe/smooth_star_rating.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:users_app/assistants/Geofire_assistant.dart';
 import 'package:users_app/classesLanguage/language.dart';
 import 'package:users_app/classesLanguage/language_constants.dart';
@@ -263,7 +264,7 @@ class _MainScreenState extends State<MainScreen> {
       }
        AssistantMethods pushNotificationSystem = AssistantMethods();
   
-    pushNotificationSystem.generateAndGetToken();
+    // pushNotificationSystem.generateAndGetToken();
     }
      //currentFirebaseUser = firebaseAuth.currentUser;
    
@@ -465,7 +466,7 @@ riderequestid = referenceRideRequest!.key!;
     notificationServices.requestNotificationPermission();
     checkIfPermissionAllowed();
      requestNotificationPermission();
-    AssistantMethods pushNotificationSystem = AssistantMethods();
+    // AssistantMethods pushNotificationSystem = AssistantMethods();
     // pushNotificationSystem.generateAndGetToken();
     AssistantMethods.readRideRequestKeys(context);
   }
@@ -929,8 +930,15 @@ riderequestid = referenceRideRequest!.key!;
 
                           //call button
                           TextButton(
-                            onPressed: () {
-                              //
+                            onPressed: () async {
+
+                             Uri url = Uri(scheme: "tel", path: driverPhone);
+                              if (await canLaunchUrl(url)) {
+                               await launchUrl(url);
+                                     } else {
+                                  print("Can't open dial pad.");
+    }
+
                             },
                             style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
@@ -954,26 +962,26 @@ riderequestid = referenceRideRequest!.key!;
                           ),
 
                           //text button
-                          TextButton(
-                            onPressed: () {
-                              //
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                      color: Colors.lightBlue,
-                                      width: 2,
-                                      style: BorderStyle.solid),
-                                  borderRadius: BorderRadius.circular(10)), backgroundColor: Colors.white,
-                              padding:
-                                  const EdgeInsets.fromLTRB(20, 15, 20, 15),
-                            ),
-                            child: const Icon(
-                              Icons.chat_outlined,
-                              color: Colors.lightBlue,
-                              size: 25,
-                            ),
-                          ),
+                          // TextButton(
+                          //   onPressed: () {
+                          //     //
+                          //   },
+                          //   style: ElevatedButton.styleFrom(
+                          //     shape: RoundedRectangleBorder(
+                          //         side: const BorderSide(
+                          //             color: Colors.lightBlue,
+                          //             width: 2,
+                          //             style: BorderStyle.solid),
+                          //         borderRadius: BorderRadius.circular(10)), backgroundColor: Colors.white,
+                          //     padding:
+                          //         const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                          //   ),
+                          //   child: const Icon(
+                          //     Icons.chat_outlined,
+                          //     color: Colors.lightBlue,
+                          //     size: 25,
+                          //   ),
+                          // ),
 
                           const SizedBox(
                             width: 10,

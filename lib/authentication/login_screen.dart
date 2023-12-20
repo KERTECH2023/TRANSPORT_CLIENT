@@ -260,7 +260,27 @@ class _LoginState extends State<Login> {
                       labelText: AppLocalizations.of(context)!.password,
                       hintText: AppLocalizations.of(context)!.password,
                       prefixIcon: Icon(Icons.password),
-                     
+                       suffixIcon: IconButton(
+                          icon: isPasswordVisible ?
+                          const Icon(Icons.visibility_off) :
+                          const Icon(Icons.visibility),
+
+                          onPressed: () {
+                            if(isPasswordVisible == true){
+                              setState(() {
+                                isPasswordVisible = false;
+                              });
+                            }
+
+                            else {
+                              setState(() {
+                                isPasswordVisible = true;
+                              });
+                            }
+
+                          }
+
+                      ),
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {

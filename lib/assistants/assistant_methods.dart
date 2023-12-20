@@ -309,15 +309,15 @@ print("emchiiiiiiiiiiii brabiiiiiiiiiiiii:" + responseNotification.body.toString
     }
 
   }
-     Future generateAndGetToken() async {
-    FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-    String? registrationToken = await FirebaseMessaging.instance.getToken();
-    print("FCM regetration token : ${registrationToken}");
+  //    Future generateAndGetToken() async {
+  //   FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  //   String? registrationToken = await FirebaseMessaging.instance.getToken();
+  //   print("FCM regetration token : ${registrationToken}");
 
-    FirebaseDatabase.instance.ref().child("Users").child(firebaseAuth.currentUser!.uid).child("token").set(registrationToken);
-     firebaseMessaging.subscribeToTopic("allDrivers");
-    firebaseMessaging.subscribeToTopic("allUsers");
+  //   FirebaseDatabase.instance.ref().child("Users").child(firebaseAuth.currentUser!.uid).child("token").set(registrationToken);
+  //    firebaseMessaging.subscribeToTopic("allDrivers");
+  //   firebaseMessaging.subscribeToTopic("allUsers");
 
 
-  }
+  // }
 }
