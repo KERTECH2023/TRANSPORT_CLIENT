@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +11,6 @@ import 'package:users_app/global/global.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../models/active_nearby_available_drivers.dart';
-
-
 
 class SelectActiveDriverScreen extends StatefulWidget {
   static DatabaseReference? referenceRideRequest;
@@ -28,7 +28,41 @@ class _SelectActiveDriverScreenState extends State<SelectActiveDriverScreen> {
         ? AssistantMethods.calculateFareAmountFromSourceToDestination(tripDirectionDetailsInfo!, vehicleType)
         : null;
   }
-   @override
+
+  @override
+  void initState() {
+    super.initState();
+    // Set up a stream listener for real-time updates
+    DatabaseReference driversRef = FirebaseDatabase.instance.ref().child("Drivers");
+driversRef.onValue.listen((event) {
+  // Update the driversList when there are changes in the database
+  // Make sure to clear the list before updating to avoid duplicates
+  driversList.clear();
+  if (event.snapshot.value != null) {
+    // Use explicit casting to Map<dynamic, dynamic>
+    Map<dynamic, dynamic> driversData = event.snapshot.value as Map<dynamic, dynamic>;
+
+    // Print debug information
+    driversData.forEach((key, value) {
+      print("Driver ID: $key, Status: ${value['status']}");
+      print("Driver Name: $key, Name: ${value['name']}");
+      if (value is Map<dynamic, dynamic> && value['status'] == 'Online') {
+        driversList.add(value);
+      }
+    });
+
+    // Convert dynamic to String by encoding and decoding as JSON
+    driversList.addAll(json.decode(json.encode(driversData.values.toList())));
+    // Assuming that each driver object has the structure you expect
+  }
+
+  setState(() {
+    // Trigger a rebuild to update the UI
+  });
+});
+  }
+
+  @override
   void dispose() {
     // Clear the driversList when leaving the page
     driversList.clear();

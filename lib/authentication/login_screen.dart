@@ -4,14 +4,23 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:users_app/assistants/assistant_methods.dart';
 import 'package:get/get.dart';
 import 'package:users_app/authentication/otp_page.dart';
+import 'package:users_app/authentication/phoneauth_screen.dart';
 import 'package:users_app/classesLanguage/language.dart';
 import 'package:users_app/classesLanguage/language_constants.dart';
 import 'package:users_app/main.dart';
+import 'package:users_app/utils/next_screen.dart';
+import 'package:users_app/utils/snack_bar.dart';
 import '../global/global.dart';
+import '../mainScreens/main_screen.dart';
+import '../provider/internet_provider.dart';
+import '../provider/sign_in_provider.dart';
 import '../widgets/progress_dialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -25,7 +34,14 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
-      
+       final RoundedLoadingButtonController googleController =
+      RoundedLoadingButtonController();
+  final RoundedLoadingButtonController facebookController =
+      RoundedLoadingButtonController();
+  final RoundedLoadingButtonController twitterController =
+      RoundedLoadingButtonController();
+  final RoundedLoadingButtonController phoneController =
+      RoundedLoadingButtonController();
 
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
@@ -38,7 +54,9 @@ class _LoginState extends State<Login> {
 
     emailTextEditingController.addListener(() => setState(() {}));
     passwordTextEditingController.addListener(() => setState(() {}));
+    
   }
+  
 
   loginUser() async {
     showDialog(
@@ -105,30 +123,140 @@ class _LoginState extends State<Login> {
 
   // Step 4: Sign in with Firebase using the obtained credentials
   return await FirebaseAuth.instance.signInWithCredential(credential);
+  
 }
 
- Future<void> handleGoogleSignIn() async {
-    try {
-      UserCredential userCredential = await signInWithGoogle();
-      User? user = userCredential.user;
-      if (user != null) {
-        // Successfully signed in with Google.
-        // You can store the user information or perform any other actions here.
-        Navigator.pushNamed(context, '/main_screen'); // Replace '/next_interface' with the route of your next interface.
-      } else {
-        // Handle sign-in failure here, if needed.
-        Fluttertoast.showToast(msg: "Google Sign-In Failed. Please try again.");
-      }
-    } catch (e) {
-      // Handle sign-in failure and errors here, if needed.
-      print("Google Sign-In Error: $e");
-      Fluttertoast.showToast(msg: "Google Sign-In Error: $e");
+// Future<void> handleGoogleSignIn() async {
+//   try {
+//     UserCredential userCredential = await signInWithGoogle();
+//     User? user = userCredential.user;
+
+//     if (user != null) {
+//       // Check if the user already exists in your database
+//       bool isUserExists = await checkIfUserExists(user.email!);
+
+//       if (isUserExists) {
+//         // User already exists, redirect to their account
+//         Navigator.pushNamed(context, '/main_screen');
+//       } else {
+//         // User doesn't exist, redirect to the registration screen.
+//         Navigator.pushNamed(context, '/register_googlesignin_screen', arguments: {'email': user.email});
+//       }
+//     } else {
+//       // Handle sign-in failure here, if needed.
+//       Fluttertoast.showToast(msg: "Google Sign-In Failed. Please try again.");
+//     }
+//   } catch (e) {
+//     // Handle sign-in failure and errors here, if needed.
+//     print("Google Sign-In Error: $e");
+//     Fluttertoast.showToast(msg: "Google Sign-In Error: $e");
+//   }
+// }
+Future handleGoogleSignIn() async {
+    final sp = context.read<SignInProvider>();
+    final ip = context.read<InternetProvider>();
+    await ip.checkInternetConnection();
+
+    if (ip.hasInternet == false) {
+      openSnackbar(context, "Check your Internet connection", Colors.red);
+      googleController.reset();
+    } else {
+      await sp.signInWithGoogle().then((value) {
+        if (sp.hasError == true) {
+          openSnackbar(context, sp.errorCode.toString(), Colors.red);
+          googleController.reset();
+        } else {
+          // checking whether user exists or not
+          sp.checkUserExists().then((value) async {
+            if (value == true) {
+              // user exists
+              await sp.getUserDataFromFirestore(sp.uid).then((value) => sp
+                  .saveDataToSharedPreferences()
+                  .then((value) => sp.setSignIn().then((value) {
+                        googleController.success();
+                        handleAfterSignIn();
+                      })));
+            } else {
+              // user does not exist
+              sp.saveDataToFirestore().then((value) => sp
+                  .saveDataToSharedPreferences()
+                  .then((value) => sp.setSignIn().then((value) {
+                        googleController.success();
+                        handleAfterSignIn();
+                      })));
+            }
+          });
+        }
+      });
     }
   }
+Future<bool> checkIfUserExists(String email) async {
+  try {
+    DatabaseReference databaseReference = FirebaseDatabase.instance.ref().child('Users');
+    var snapshot = await databaseReference.orderByChild('email').equalTo(email).get();
+    
+    // For newer versions of Firebase (version 9 or later)
+    // Use snapshot.exists() instead of snapshot.value != null
+    return snapshot.exists;
+  } catch (e) {
+    print("Error checking if user exists: $e");
+    return false;
+  }
+}
+
+// Function to save user data to Firebase Realtime Database
+// void saveUserDataToDatabase(String email, String? photoUrl) {
+//   DatabaseReference reference = FirebaseDatabase.instance.ref().child("Users");
+  
+//   // Create a map of user data to be saved
+//   Map<String, dynamic> userData = {
+//     "email": email,
+//     "photoUrl": photoUrl ?? "", // Use empty string if photoUrl is null
+//     // Add other user data fields if needed
+//   };
+
+//   // Save data to the database using the user's UID as the key
+//   reference.child(FirebaseAuth.instance.currentUser!.uid).set(userData);
+// }
 
   // Function for Facebook Login
-  void handleFacebookLogin() {
-    // Implement the Facebook Login logic here
+   Future handleFacebookAuth() async {
+    final sp = context.read<SignInProvider>();
+    final ip = context.read<InternetProvider>();
+    await ip.checkInternetConnection();
+
+    if (ip.hasInternet == false) {
+      openSnackbar(context, "Check your Internet connection", Colors.red);
+      facebookController.reset();
+    } else {
+      await sp.signInWithFacebook().then((value) {
+        if (sp.hasError == true) {
+          openSnackbar(context, sp.errorCode.toString(), Colors.red);
+          facebookController.reset();
+        } else {
+          // checking whether user exists or not
+          sp.checkUserExists().then((value) async {
+            if (value == true) {
+              // user exists
+              await sp.getUserDataFromFirestore(sp.uid).then((value) => sp
+                  .saveDataToSharedPreferences()
+                  .then((value) => sp.setSignIn().then((value) {
+                        facebookController.success();
+                        handleAfterSignIn();
+                      })));
+            } else {
+              // user does not exist
+              sp.saveDataToFirestore().then((value) => sp
+                  .saveDataToSharedPreferences()
+                  .then((value) => sp.setSignIn().then((value) {
+                        facebookController.success();
+                        handleAfterSignIn();
+                      })));
+            }
+          });
+        }
+      });
+    }
   }
 
   // Function for Phone Number Login
@@ -366,40 +494,94 @@ class _LoginState extends State<Login> {
                       color: Colors.black,
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: handleGoogleSignIn,
-                        style: customButtonStyle(),
-                        child: Image.asset(
-                          "images/google.png",
-                          width: 50,
-                          height: 50,
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      ElevatedButton(
-                        onPressed: handleFacebookLogin,
-                        style: customButtonStyle(),
-                        child: Image.asset(
-                          "images/facebook.png",
-                          width: 50,
-                          height: 50,
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      ElevatedButton(
-                        onPressed: handlePhoneNumberLogin,
-                        style: customButtonStyle(),
-                        child: Image.asset(
-                          "images/phone.png",
-                          width: 50,
-                          height: 50,
-                        ),
-                      ),
-                    ],
-                  ),
+                   const SizedBox(
+                  height: 10,
+                ),
+                 Row(
+  crossAxisAlignment: CrossAxisAlignment.center,
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    RoundedLoadingButton(
+      onPressed: () {
+        handleGoogleSignIn();
+      },
+      controller: googleController,
+      successColor: Colors.red,
+      width: MediaQuery.of(context).size.width * 0.15,
+      elevation: 0,
+      borderRadius: 25,
+      color: Colors.red,
+      child: Align(
+      child: Wrap(
+        children: const [
+          Icon(
+            FontAwesomeIcons.google,
+            size: 20,
+            color: Colors.white,
+          ),
+          SizedBox(
+            width: 15,
+          ),
+        ],
+      ),
+    ),
+    ),
+    SizedBox(width: 20), // Add space between buttons
+    RoundedLoadingButton(
+      onPressed: () {
+        handleFacebookAuth();
+      },
+      controller: facebookController,
+      successColor: Colors.blue,
+      width: MediaQuery.of(context).size.width * 0.15,
+      elevation: 0,
+      borderRadius: 25,
+      color: Colors.blue,
+        child: Align(
+      child: Wrap(
+        children: const [
+          Icon(
+            FontAwesomeIcons.facebook,
+            size: 20,
+            color: Colors.white,
+          ),
+          SizedBox(
+            width: 15,
+          ),
+        ],
+      ),
+    ),
+    ),
+    SizedBox(width: 20), // Add space between buttons
+    RoundedLoadingButton(
+      onPressed: () {
+        handlePhoneNumberLogin();
+      },
+      controller: phoneController,
+      successColor: Colors.black,
+      width: MediaQuery.of(context).size.width * 0.15,
+      elevation: 0,
+      borderRadius: 25,
+      color: Colors.black,
+      
+      child: Wrap(
+        children: const [
+          Icon(
+            FontAwesomeIcons.phone,
+            size: 20,
+            color: Colors.white,
+            
+
+          ),
+          SizedBox(
+            width: 15,
+          ),
+        ],
+      ),
+    ),
+  ],
+),
+
                   TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/register_screen');
@@ -417,6 +599,15 @@ class _LoginState extends State<Login> {
       ),
     );
   }
- 
+ handleAfterSignIn() {
+  Future.delayed(const Duration(milliseconds: 1000)).then((value) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MainScreen(),
+      ),
+    );
+  });
+}
   
 }

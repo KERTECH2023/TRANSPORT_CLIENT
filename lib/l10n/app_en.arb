@@ -49,6 +49,7 @@
     "paycash":"Pay cash",
     "tripFareAmount":"Trip Fare Amount",
     "paydriver":"Pay Driver",
+    "modify":"Modify",
     "youhavecancelledtheriderequest":"You have cancelled the ride request",
     "processingPleasewait":"Processing, Please wait",
     "noAccountRegister": "Don't have an account? Register Now",

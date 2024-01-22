@@ -18,74 +18,74 @@ import 'package:users_app/global/map_key.dart';
 import 'package:users_app/models/direction_details_info.dart';
 import 'package:users_app/models/directions.dart';
 import 'package:users_app/models/trip_history_model.dart';
-import 'package:firebase_messaging/firebase_messaging.dart' as firebase_messaging;
+import 'package:firebase_messaging/firebase_messaging.dart'
+    as firebase_messaging;
 import '../InfoHandler/app_info.dart';
 import '../models/user_model.dart';
 
-
- 
-
-
-class AssistantMethods{
+class AssistantMethods {
   void requestNotificationPermission() async {
-  firebase_messaging.NotificationSettings settings =
-      await firebase_messaging.FirebaseMessaging.instance.requestPermission(
-    alert: true,
-    announcement: true,
-    badge: true,
-    carPlay: true,
-    criticalAlert: true,
-    provisional: true,
-    sound: true,
-  );
+    firebase_messaging.NotificationSettings settings =
+        await firebase_messaging.FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      announcement: true,
+      badge: true,
+      carPlay: true,
+      criticalAlert: true,
+      provisional: true,
+      sound: true,
+    );
 
-  if (settings.authorizationStatus == firebase_messaging.AuthorizationStatus.authorized) {
-    print('User granted permission');
-  } else if (settings.authorizationStatus == firebase_messaging.AuthorizationStatus.provisional) {
-    print('User granted provisional permission');
-  } else {
-    print('User declined or has not accepted permission');
+    if (settings.authorizationStatus ==
+        firebase_messaging.AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else if (settings.authorizationStatus ==
+        firebase_messaging.AuthorizationStatus.provisional) {
+      print('User granted provisional permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
   }
-}
+
 //  static Future<void> fetchAccessToken() async {
 //   final IdTokenResult? tokenResult = await firebaseAuth.currentUser?.getIdTokenResult();
 //   final String? idToken = tokenResult?.token;
 //   print("Access Token: $idToken");
 // }
-static Future<String> getAccessToken() async {
-  final ServiceAccountCredentials credentials = 
-    ServiceAccountCredentials.fromJson({
+  static Future<String> getAccessToken() async {
+    final ServiceAccountCredentials credentials =
+        ServiceAccountCredentials.fromJson({
       "type": "service_account",
-    "project_id": "transport-app-36443",
-    "private_key_id": "889793038ab1f54274b33d616240b40e090200bb",
-    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCpksWC7Z/K3Wp7\nbogMe4TIuq07L6PLz5zbsEHfrvEHaWsgzVxX7Jz64UTfXBMlYeyPylvUYlcEHxQg\nd5BoXAnrTTbNGz6XWcOevx6irp9GXokIjxJX6bZ1kib7rbz7YqUrhRRo7cBCjbCy\noRyHj4kbN4kyYqzsVMh6SkaFMTtCWIvaHmjsHfocEMvgj5helXLqNY6kd9CZWDv/\nf2mpca5uUSuEKqGqcAjuw4qyAsmb8gbUwO9wQMWSQip85duMDz7l8uZnpO1wNu7L\nKCegQcwbKSCa8YFMxVJHupvMhr+kywaONyld/0b5eyvDaHNfGdhoT0gJA+p1yKJa\naBui3ITdAgMBAAECggEADLlIG7Zjzo+FnWRiTfl4sa0cMXw2IKVf4jYcA0I3sLQu\nxyPRoYFOGB8OEWpxv1TVMMbg1BNa7yK72mHOUp5RWjgNfB9mt2mTXZZ+oHtU1S1j\nv+IoYLNXLwQ765eSPhSdSyItsV/hlLzX/NdM8jkJcyLcJw0zZ3pHHrHzD6xtg2FN\nOhUOqsQtfckcujTwGSwtDlqBxBiaylEUYjASxOCez5UbKtTsPn2+0E+AqCO5a8Re\nP/HLbTXpTIweVGzcevy2fx0/P04Qc9RbkfkkDcU7DwCfEN9SfonceWgDysbsqayF\nHJAycV4STcUa7rEXXlhQIBWkS9EnmDD2zEAH+FYnWwKBgQDVrfPi7z7JTxovT8qS\nTE2ZsHZEpMIeBJzS8lWSiT8ZS9D9OvMZJd5Qe9kPI5s2Memi9MuqoUpDkrA/gKQL\nf1CIqn/87YDO93gQM0XjhNW8j8JlBtJqvBjXjQcDr5CijcvwivggzWAMbLYuwVie\noU+DT1F+SGvygiImsxESyqIKtwKBgQDLKIiAvS+OZ5K1sYGQwDIGH/mJbWedcvqF\nfNuzum2U49N2UBWCP8zD+h9m/E6pl33Blzq436gAm579uW3wBZpSzv9SgN3TddBr\nKUyy/1JM6PEgwWsnOzNPvZ4OttzKQkYhshH54YVYs0WW56qtY1q+3FrS3WKCM89Z\nkeaMt4dpCwKBgCr2e9gAFJazUed7WpaJwvyIz27D1cflU4bSdMQu1kIGzXFs/d3r\nkESMcjsqBJYj+P7ry1t2bJEjmE5cVh99rLqd1XgMZN64QSq4tG+nkLYGDab0dTBC\nu5fzYhqqnSEh84Rc3MDzqkE1RngmJeRXOL6FHzSN6S5sXeN8E428slIHAoGBAKn0\njM12d1RgnUFW8BdSUgcBtNYdKnNzftUxcPLYYVgPiBYQRQ4jpX/FvYOAS6Zgz5mm\nlD+ZC4kGp2mHOMt1RHdGKB6zI+AFTYh4kmukYQtqTF6ksKmvQuvQq2uP2wFxlA4Y\nVCWBXvancu4dfJF07rOA0JJbFk/qW+qIviC2YJelAoGAHumB+nmF5YlynYu2Y8zg\n+lIJE01ZcAEKLvh7/2XwADFik/PBwnSoMzd/+J6XXZnJH5+G5pgAwKw1PU9dIUYZ\nJQeoD3YQCFY+RiAAXw+4fPtT9R6dQQunGTmGuRcFlqSqg+451ucIioN2Pl81f8LF\n7RoNVX6e05U4GWo8SnG3rmk=\n-----END PRIVATE KEY-----\n",
-    "client_email": "firebase-adminsdk-4c10y@transport-app-36443.iam.gserviceaccount.com",
-    "client_id": "101907917733769173323",
-    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-4c10y%40transport-app-36443.iam.gserviceaccount.com",
-    "universe_domain": "googleapis.com"
+      "project_id": "transport-app-36443",
+      "private_key_id": "889793038ab1f54274b33d616240b40e090200bb",
+      "private_key":
+          "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCpksWC7Z/K3Wp7\nbogMe4TIuq07L6PLz5zbsEHfrvEHaWsgzVxX7Jz64UTfXBMlYeyPylvUYlcEHxQg\nd5BoXAnrTTbNGz6XWcOevx6irp9GXokIjxJX6bZ1kib7rbz7YqUrhRRo7cBCjbCy\noRyHj4kbN4kyYqzsVMh6SkaFMTtCWIvaHmjsHfocEMvgj5helXLqNY6kd9CZWDv/\nf2mpca5uUSuEKqGqcAjuw4qyAsmb8gbUwO9wQMWSQip85duMDz7l8uZnpO1wNu7L\nKCegQcwbKSCa8YFMxVJHupvMhr+kywaONyld/0b5eyvDaHNfGdhoT0gJA+p1yKJa\naBui3ITdAgMBAAECggEADLlIG7Zjzo+FnWRiTfl4sa0cMXw2IKVf4jYcA0I3sLQu\nxyPRoYFOGB8OEWpxv1TVMMbg1BNa7yK72mHOUp5RWjgNfB9mt2mTXZZ+oHtU1S1j\nv+IoYLNXLwQ765eSPhSdSyItsV/hlLzX/NdM8jkJcyLcJw0zZ3pHHrHzD6xtg2FN\nOhUOqsQtfckcujTwGSwtDlqBxBiaylEUYjASxOCez5UbKtTsPn2+0E+AqCO5a8Re\nP/HLbTXpTIweVGzcevy2fx0/P04Qc9RbkfkkDcU7DwCfEN9SfonceWgDysbsqayF\nHJAycV4STcUa7rEXXlhQIBWkS9EnmDD2zEAH+FYnWwKBgQDVrfPi7z7JTxovT8qS\nTE2ZsHZEpMIeBJzS8lWSiT8ZS9D9OvMZJd5Qe9kPI5s2Memi9MuqoUpDkrA/gKQL\nf1CIqn/87YDO93gQM0XjhNW8j8JlBtJqvBjXjQcDr5CijcvwivggzWAMbLYuwVie\noU+DT1F+SGvygiImsxESyqIKtwKBgQDLKIiAvS+OZ5K1sYGQwDIGH/mJbWedcvqF\nfNuzum2U49N2UBWCP8zD+h9m/E6pl33Blzq436gAm579uW3wBZpSzv9SgN3TddBr\nKUyy/1JM6PEgwWsnOzNPvZ4OttzKQkYhshH54YVYs0WW56qtY1q+3FrS3WKCM89Z\nkeaMt4dpCwKBgCr2e9gAFJazUed7WpaJwvyIz27D1cflU4bSdMQu1kIGzXFs/d3r\nkESMcjsqBJYj+P7ry1t2bJEjmE5cVh99rLqd1XgMZN64QSq4tG+nkLYGDab0dTBC\nu5fzYhqqnSEh84Rc3MDzqkE1RngmJeRXOL6FHzSN6S5sXeN8E428slIHAoGBAKn0\njM12d1RgnUFW8BdSUgcBtNYdKnNzftUxcPLYYVgPiBYQRQ4jpX/FvYOAS6Zgz5mm\nlD+ZC4kGp2mHOMt1RHdGKB6zI+AFTYh4kmukYQtqTF6ksKmvQuvQq2uP2wFxlA4Y\nVCWBXvancu4dfJF07rOA0JJbFk/qW+qIviC2YJelAoGAHumB+nmF5YlynYu2Y8zg\n+lIJE01ZcAEKLvh7/2XwADFik/PBwnSoMzd/+J6XXZnJH5+G5pgAwKw1PU9dIUYZ\nJQeoD3YQCFY+RiAAXw+4fPtT9R6dQQunGTmGuRcFlqSqg+451ucIioN2Pl81f8LF\n7RoNVX6e05U4GWo8SnG3rmk=\n-----END PRIVATE KEY-----\n",
+      "client_email":
+          "firebase-adminsdk-4c10y@transport-app-36443.iam.gserviceaccount.com",
+      "client_id": "101907917733769173323",
+      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+      "token_uri": "https://oauth2.googleapis.com/token",
+      "auth_provider_x509_cert_url":
+          "https://www.googleapis.com/oauth2/v1/certs",
+      "client_x509_cert_url":
+          "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-4c10y%40transport-app-36443.iam.gserviceaccount.com",
+      "universe_domain": "googleapis.com"
     });
-    
-   
 
- final client = await clientViaServiceAccount(credentials, ['https://www.googleapis.com/auth/firebase.messaging']);
-  final AccessCredentials accessCredentials = await client.credentials;
-  
+    final client = await clientViaServiceAccount(
+        credentials, ['https://www.googleapis.com/auth/firebase.messaging']);
+    final AccessCredentials accessCredentials = await client.credentials;
 
-  return accessCredentials.accessToken.data;
+    return accessCredentials.accessToken.data;
+  }
 
-}
   static final _firebaseMessaging = FirebaseMessaging.instance;
 
   static Future<void> initNotification() async {
     await _firebaseMessaging.requestPermission();
-   
-
   }
-  
-    static Future<String?> fetchAccessToken() async {
+
+  static Future<String?> fetchAccessToken() async {
     final user = firebaseAuth.currentUser;
     if (user != null) {
       final IdTokenResult tokenResult = await user.getIdTokenResult();
@@ -94,17 +94,20 @@ static Future<String> getAccessToken() async {
     return null;
   }
 
-  static Future<String> searchAddressForGeographicCoordinates(Position position,context) async{
+  static Future<String> searchAddressForGeographicCoordinates(
+      Position position, context) async {
     String humanReadableAddress = "Error";
 
     // Creating connection to Geocode / Geolocation Api
-    String apiUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=$mapKey";
+    String apiUrl =
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=$mapKey";
 
     // Sending the api Url to the static method to use the url to fetch the Readable Address
     var requestResponse = await RequestAssistant.ReceiveRequest(apiUrl);
 
-    if (requestResponse!="Error fetching the request"){
-      humanReadableAddress = requestResponse["results"][0]["formatted_address"]; // Human Readable Address
+    if (requestResponse != "Error fetching the request") {
+      humanReadableAddress = requestResponse["results"][0]
+          ["formatted_address"]; // Human Readable Address
 
       // Creating instance of Direction and assigning the values
       Directions userPickupAddress = Directions();
@@ -112,212 +115,207 @@ static Future<String> getAccessToken() async {
       userPickupAddress.locationLongitude = position.longitude;
       userPickupAddress.locationName = humanReadableAddress;
 
-      Provider.of<AppInfo>(context,listen: false).updatePickupLocationAddress(userPickupAddress);
-
+      Provider.of<AppInfo>(context, listen: false)
+          .updatePickupLocationAddress(userPickupAddress);
     }
 
     return humanReadableAddress;
-
   }
- 
-  
 
-  static void readOnlineUserCurrentInfo(){
+  static void readOnlineUserCurrentInfo() {
     currentFirebaseUser = firebaseAuth.currentUser;
-    DatabaseReference reference = FirebaseDatabase.instance.ref()
+    DatabaseReference reference = FirebaseDatabase.instance
+        .ref()
         .child("Users")
         .child(currentFirebaseUser!.uid);
 
-    reference.once().then((snap){
-
+    reference.once().then((snap) {
       final DataSnapshot snapshot = snap.snapshot;
-      if(snapshot.exists){
+      if (snapshot.exists) {
         currentUserInfo = UserModel.fromSnapshot(snapshot);
       }
-
     });
   }
 
-  static Future<DirectionDetailsInfo?> getOriginToDestinationDirectionDetails(LatLng originPosition,LatLng destinationPosition) async{
+  static Future<DirectionDetailsInfo?> getOriginToDestinationDirectionDetails(
+      LatLng originPosition, LatLng destinationPosition) async {
     // Create connection to direction Api
-    String urlOriginToDestinationDirectionDetails = "https://maps.googleapis.com/maps/api/directions/json?origin=${originPosition.latitude},${originPosition.longitude}&destination=${destinationPosition.latitude},${destinationPosition.longitude}&key=$mapKey";
+    String urlOriginToDestinationDirectionDetails =
+        "https://maps.googleapis.com/maps/api/directions/json?origin=${originPosition.latitude},${originPosition.longitude}&destination=${destinationPosition.latitude},${destinationPosition.longitude}&key=$mapKey";
     // Sending the api Url to the static method to use the url to fetch the driving directions in Json format.
-    var response = await RequestAssistant.ReceiveRequest(urlOriginToDestinationDirectionDetails);
+    var response = await RequestAssistant.ReceiveRequest(
+        urlOriginToDestinationDirectionDetails);
 
-    if(response == "Error fetching the request"){
+    if (response == "Error fetching the request") {
       return null;
     }
 
     DirectionDetailsInfo directionDetailsInfo = DirectionDetailsInfo();
-    directionDetailsInfo.e_points = response["routes"][0]["overview_polyline"]["points"]; // Poly/Encoded points from Current Location to destination
+    directionDetailsInfo.e_points = response["routes"][0]["overview_polyline"]
+        ["points"]; // Poly/Encoded points from Current Location to destination
 
-    directionDetailsInfo.distance_value = response["routes"][0]["legs"][0]["distance"]["value"];
-    directionDetailsInfo.distance_text = response["routes"][0]["legs"][0]["distance"]["text"];
+    directionDetailsInfo.distance_value =
+        response["routes"][0]["legs"][0]["distance"]["value"];
+    directionDetailsInfo.distance_text =
+        response["routes"][0]["legs"][0]["distance"]["text"];
 
-    directionDetailsInfo.duration_value = response["routes"][0]["legs"][0]["duration"]["value"];
-    directionDetailsInfo.duration_text = response["routes"][0]["legs"][0]["duration"]["text"];
+    directionDetailsInfo.duration_value =
+        response["routes"][0]["legs"][0]["duration"]["value"];
+    directionDetailsInfo.duration_text =
+        response["routes"][0]["legs"][0]["duration"]["text"];
 
     return directionDetailsInfo;
-
   }
 
-  static double calculateFareAmountFromSourceToDestination(DirectionDetailsInfo directionDetailsInfo, String vehicleType)
-  {
-    double baseFare,fareAmountPerKilometer;
-    if (vehicleType == "UberX"){
+  static double calculateFareAmountFromSourceToDestination(
+      DirectionDetailsInfo directionDetailsInfo, String vehicleType) {
+    double baseFare, fareAmountPerKilometer;
+    if (vehicleType == "UberX") {
       baseFare = 3.5;
-     
+
+      fareAmountPerKilometer = directionDetailsInfo.distance_value! * baseFare;
+    } else if (vehicleType == "Uber Premier") {
+      baseFare = 3.5;
+
+      fareAmountPerKilometer = directionDetailsInfo.distance_value! * baseFare;
+    } else {
+      baseFare = 3.5;
+
       fareAmountPerKilometer = directionDetailsInfo.distance_value! * baseFare;
     }
 
-    else if (vehicleType == "Uber Premier"){
-      baseFare = 3.5;
-     
-      fareAmountPerKilometer = directionDetailsInfo.distance_value! * baseFare;
-    }
-
-    else{
-      baseFare = 3.5;
-      
-      fareAmountPerKilometer = directionDetailsInfo.distance_value! * baseFare;
-    }
-
-    
     double totalFareAmount = fareAmountPerKilometer;
     return double.parse(totalFareAmount.toStringAsFixed(1));
   }
 
   // Postman work
-  static sendNotificationToDriver(context, String? rideRequestID,String deviceRegistrationToken) async{
+  static sendNotificationToDriver(
+      context, String? rideRequestID, String deviceRegistrationToken) async {
     //  final FCMToken= await _firebaseMessaging.getToken();
     // print('Token : $FCMToken');
     //  final idToken = await fetchAccessToken();
     //   if (idToken != null) {
     //     print("tokennnauthh "+ idToken.toString());
     final accessToken = await getAccessToken();
-  print('Access Token: $accessToken');
+    print('Access Token: $accessToken');
 
-    Map<String,String> headerNotification = {
-      'Content-Type' : 'application/json',
-      'Authorization' : 'Bearer $accessToken',
-      
-      
+    Map<String, String> headerNotification = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $accessToken',
     };
-   Map<String, dynamic> bodyNotification = {
-  "body": "You have a new ride request!",
-  "title": "New Ride Request"
-  
-};
-Map<String, dynamic> android =
-  {
-    "priority": "high",
-  };
-  Map<String, dynamic> dataMap = {
-  "click_action": "FLUTTER_NOTIFICATION_CLICK",
-  "id": "1",
-  "status": "done",
-  "rideRequestId": rideRequestID
-}; 
-Map<String, dynamic> message = {
-  "token": deviceRegistrationToken,
-   "data": dataMap,
-  "notification": bodyNotification,
- 
-   "android": android,
-};
+    Map<String, dynamic> bodyNotification = {
+      "body": "You have a new ride request!",
+      "title": "New Ride Request"
+    };
+    Map<String, dynamic> android = {
+      "priority": "high",
+    };
+    Map<String, dynamic> dataMap = {
+      "click_action": "FLUTTER_NOTIFICATION_CLICK",
+      "id": "1",
+      "status": "done",
+      "rideRequestId": rideRequestID
+    };
+    Map<String, dynamic> message = {
+      "token": deviceRegistrationToken,
+      "data": dataMap,
+      "notification": bodyNotification,
+      "android": android,
+    };
 
+    Map<String, dynamic> officielNotificationFormat = {
+      "notification": bodyNotification,
+    };
 
+    Map<String, dynamic> fcm = {
+      "message": message,
+    };
 
-Map<String, dynamic> officielNotificationFormat = {
-  "notification": bodyNotification,
-  
- 
-};
-
-
-Map<String, dynamic> fcm = {
-  "message": message,
-};
-     
-  
     // Work of postman to send notification
     var responseNotification = await post(
-      Uri.parse('https://fcm.googleapis.com/v1/projects/transport-app-36443/messages:send'),
+      Uri.parse(
+          'https://fcm.googleapis.com/v1/projects/transport-app-36443/messages:send'),
       headers: headerNotification,
-      body: jsonEncode(fcm),    
-          );
-print("hfjhyfghjf "+fcm.toString());
+      body: jsonEncode(fcm),
+    );
+    print("hfjhyfghjf " + fcm.toString());
 
-print("emchiiiiiiiiiiii brabiiiiiiiiiiiii:" + responseNotification.body.toString());
-  //  } else {
-  //       print('User is not authenticated');
-  //     }
+    print("emchiiiiiiiiiiii brabiiiiiiiiiiiii:" +
+        responseNotification.body.toString());
+    //  } else {
+    //       print('User is not authenticated');
+    //     }
   }
 
-  
-
   // For Trip history
-  static void readRideRequestKeys(context){
-    FirebaseDatabase.instance.ref()
+  static void readRideRequestKeys(context) {
+    FirebaseDatabase.instance
+        .ref()
         .child("AllRideRequests")
         .orderByChild("userName")
         .equalTo(currentUserInfo!.name)
         .once()
         .then((snapData) {
-          DataSnapshot snapshot = snapData.snapshot;
-          if(snapshot.exists){
-            // Total trips taken by this user
-            Map rideRequestKeys = snapshot.value as Map;
-            int totalTripsCount = rideRequestKeys.length;
+      DataSnapshot snapshot = snapData.snapshot;
+      if (snapshot.exists) {
+        // Total trips taken by this user
+        Map rideRequestKeys = snapshot.value as Map;
+        int totalTripsCount = rideRequestKeys.length;
 
-            // Updating total trips taken by this user
-            Provider.of<AppInfo>(context,listen: false).updateTotalTrips(totalTripsCount);
+        // Updating total trips taken by this user
+        Provider.of<AppInfo>(context, listen: false)
+            .updateTotalTrips(totalTripsCount);
 
-            // Store all the rideRequest key/id in this list
-            List<String> allRideRequestKeyList = [];
-            rideRequestKeys.forEach((key, value) {
-              allRideRequestKeyList.add(key);
-            });
+        // Store all the rideRequest key/id in this list
+        List<String> allRideRequestKeyList = [];
+        rideRequestKeys.forEach((key, value) {
+          allRideRequestKeyList.add(key);
+        });
 
-            // Storing the total trips taken list in provider
-            Provider.of<AppInfo>(context,listen: false).updateTotalTripsList(allRideRequestKeyList);
+        // Storing the total trips taken list in provider
+        Provider.of<AppInfo>(context, listen: false)
+            .updateTotalTripsList(allRideRequestKeyList);
 
-            readTripHistoryInformation(context);
-
-          }
-
+        readTripHistoryInformation(context);
+      }
     });
   }
 
   static void readTripHistoryInformation(context) {
-    var historyTripsKeyList = Provider.of<AppInfo>(context,listen: false).historyTripsKeyList;
-    for(String eachKey in historyTripsKeyList){
-      FirebaseDatabase.instance.ref()
+    var historyTripsKeyList =
+        Provider.of<AppInfo>(context, listen: false).historyTripsKeyList;
+    for (String eachKey in historyTripsKeyList) {
+      FirebaseDatabase.instance
+          .ref()
           .child("AllRideRequests")
           .child(eachKey)
           .once()
-          .then((snapData){
-            // convert each ride request information to TripHistoryModel
-            var eachTripHistoryInformation = TripHistoryModel.fromSnapshot(snapData.snapshot);
+          .then((snapData) {
+        // convert each ride request information to TripHistoryModel
+        var eachTripHistoryInformation =
+            TripHistoryModel.fromSnapshot(snapData.snapshot);
 
-            if((snapData.snapshot.value as Map)["status"] == "Ended"){
-              // Add each TripHistoryModel to a  historyInformationList in AppInfo class
-              Provider.of<AppInfo>(context,listen: false).updateTotalHistoryInformation(eachTripHistoryInformation);
-            }
-
+        if ((snapData.snapshot.value as Map)["status"] == "Ended") {
+          // Add each TripHistoryModel to a  historyInformationList in AppInfo class
+          Provider.of<AppInfo>(context, listen: false)
+              .updateTotalHistoryInformation(eachTripHistoryInformation);
+        }
       });
     }
-
   }
-  //    Future generateAndGetToken() async {
-  //   FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-  //   String? registrationToken = await FirebaseMessaging.instance.getToken();
-  //   print("FCM regetration token : ${registrationToken}");
 
-  //   FirebaseDatabase.instance.ref().child("Users").child(firebaseAuth.currentUser!.uid).child("token").set(registrationToken);
-  //    firebaseMessaging.subscribeToTopic("allDrivers");
-  //   firebaseMessaging.subscribeToTopic("allUsers");
+  Future generateAndGetToken() async {
+    FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+    String? registrationToken = await FirebaseMessaging.instance.getToken();
+    print("FCM regetration token : ${registrationToken}");
 
-
-  // }
+    FirebaseDatabase.instance
+        .ref()
+        .child("Users")
+        .child(firebaseAuth.currentUser!.uid)
+        .child("token")
+        .set(registrationToken);
+    firebaseMessaging.subscribeToTopic("allDrivers");
+    firebaseMessaging.subscribeToTopic("allUsers");
+  }
 }

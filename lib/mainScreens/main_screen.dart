@@ -264,7 +264,7 @@ class _MainScreenState extends State<MainScreen> {
       }
        AssistantMethods pushNotificationSystem = AssistantMethods();
   
-    // pushNotificationSystem.generateAndGetToken();
+    pushNotificationSystem.generateAndGetToken();
     }
      //currentFirebaseUser = firebaseAuth.currentUser;
    
@@ -466,8 +466,8 @@ riderequestid = referenceRideRequest!.key!;
     notificationServices.requestNotificationPermission();
     checkIfPermissionAllowed();
      requestNotificationPermission();
-    // AssistantMethods pushNotificationSystem = AssistantMethods();
-    // pushNotificationSystem.generateAndGetToken();
+    AssistantMethods pushNotificationSystem = AssistantMethods();
+    pushNotificationSystem.generateAndGetToken();
     AssistantMethods.readRideRequestKeys(context);
   }
 

@@ -9,7 +9,6 @@ class DriverCancelMessageDialog extends StatefulWidget {
   @override
   State<DriverCancelMessageDialog> createState() => _DriverCancelMessageDialogState();
 }
-
 class _DriverCancelMessageDialogState extends State<DriverCancelMessageDialog> {
   @override
   Widget build(BuildContext context) {
