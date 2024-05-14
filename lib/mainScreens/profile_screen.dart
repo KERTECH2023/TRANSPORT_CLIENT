@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:drivers_app/global/global.dart';
-
-import 'edit_profile_screen.dart';
-
+import 'package:users_app/global/global.dart';
+import 'package:users_app/mainScreens/edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
