@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'otp_page.dart';
 
 class Phonesignin extends StatefulWidget {
@@ -150,7 +149,7 @@ class _PhonesigninState extends State<Phonesignin> {
                       color: Colors.grey.shade600,
                     ),
                     floatingLabelBehavior: FloatingLabelBehavior.never,
-                    contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                     focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100.0), borderSide: BorderSide(color: Colors.black)),
                     enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100.0), borderSide: BorderSide(color: Colors.black38)),
                     errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100.0), borderSide: BorderSide(color: Colors.white, width: 2.0)),

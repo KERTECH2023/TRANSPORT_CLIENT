@@ -1,37 +1,33 @@
+import 'package:drivers_app/models/direction_details_info.dart';
 import 'package:flutter/widgets.dart';
-import 'package:users_app/models/trip_history_model.dart';
-import '../models/direction_details_info.dart';
 import '../models/directions.dart';
+import '../models/trip_history_model.dart';
 
-class AppInfo extends ChangeNotifier {
-  Directions? userPickupLocation, userDropOffLocation;
-  int? countTotalTrips;
+
+class AppInfo extends ChangeNotifier{
+  Directions? userPickupLocation,userDropOffLocation;
+  int countTotalTrips = 0;
   List<String> historyTripsKeyList = [];
   List<TripHistoryModel> historyInformationList = [];
-  String riderequeststatus = '';
+
+  double totalTimeDriven = 0;
+  String driverAverageRating = "5";
+
   TripHistoryModel? lastTripHistoryInformationModel;
   DirectionDetailsInfo? lastTripDirectionDetailsInformation;
 
-  // Initialize countTotalTrips in the constructor
-  AppInfo({this.countTotalTrips});
-
-  void updatePickupLocationAddress(Directions userPickupAddress) {
+  void updatePickupLocationAddress(Directions userPickupAddress){
     userPickupLocation = userPickupAddress;
     notifyListeners();
   }
 
-  void updateDropOffLocationAddress(Directions userDropOffAddress) {
+  void updateDropOffLocationAddress(Directions userDropOffAddress){
     userDropOffLocation = userDropOffAddress;
     notifyListeners();
   }
 
-  void updateriderequeststatus(String riderequeststatus) {
-    this.riderequeststatus = riderequeststatus;
-    notifyListeners();
-  }
-
-  // Will be used in the later part of the app through provider
-  void updateTotalTrips(int totalTripsCount) {
+  // Will be used in later part of the app through provider
+  void updateTotalTrips(int totalTripsCount){
     countTotalTrips = totalTripsCount;
     notifyListeners();
   }
@@ -41,18 +37,31 @@ class AppInfo extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateLastHistoryInformation(
-      TripHistoryModel lastTripHistoryInformation,
-      DirectionDetailsInfo lastTripDirectionDetailsInfo) {
+  void updateriderequeststatus(String riderequeststatus){
+    riderequeststatus = riderequeststatus;
+    notifyListeners();
+  }
+
+  void updateTotalHistoryInformation(TripHistoryModel eachTripHistoryInformation) {
+    historyInformationList.add(eachTripHistoryInformation);
+    notifyListeners();
+  }
+
+  void updateLastHistoryInformation(TripHistoryModel lastTripHistoryInformation,DirectionDetailsInfo lastTripDirectionDetailsInfo){
     lastTripHistoryInformationModel = lastTripHistoryInformation;
     lastTripDirectionDetailsInformation = lastTripDirectionDetailsInfo;
 
     notifyListeners();
   }
 
-  void updateTotalHistoryInformation(
-      TripHistoryModel eachTripHistoryInformation) {
-    historyInformationList.add(eachTripHistoryInformation);
+  void updateDriverRating(String driverRating){
+    driverAverageRating = driverRating;
     notifyListeners();
   }
+  
+
+
+
+
+
 }

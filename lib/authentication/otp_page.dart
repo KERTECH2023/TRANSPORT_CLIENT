@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:drivers_app/mainScreens/main_screen.dart';
 import 'package:pinput/pinput.dart';
-import 'package:users_app/mainScreens/main_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 class OtpPage extends StatefulWidget {
   @override
   _OtpPageState createState() => _OtpPageState();
@@ -47,7 +46,7 @@ class _OtpPageState extends State<OtpPage> {
     } on FirebaseAuthException catch (e) {
       Get.snackbar(
         e.message.toString(),
-        AppLocalizations.of(context)!.eerror,
+        AppLocalizations.of(context)!.error,
         colorText: Colors.white,
       );
     }
@@ -107,7 +106,7 @@ class _OtpPageState extends State<OtpPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const SizedBox(height: 200),
-              buildText(AppLocalizations.of(context)!.otp),
+                buildText(AppLocalizations.of(context)!.otp),
               buildText(AppLocalizations.of(context)!.number),
               const SizedBox(height: 50),
               Pinput(
@@ -137,8 +136,8 @@ class _OtpPageState extends State<OtpPage> {
               ElevatedButton(
                   style: style,
                   onPressed: _login,
-                  child: Text(
-                    AppLocalizations.of(context)!.loginas,
+                  child:  Text(
+                   AppLocalizations.of(context)!.loginas,
                     style: TextStyle(fontSize: 14, color: Colors.white),
                   )),
               const SizedBox(height: 80),
@@ -148,7 +147,7 @@ class _OtpPageState extends State<OtpPage> {
               ),
               const SizedBox(height: 10),
                Text(
-                AppLocalizations.of(context)!.resendCode,
+               AppLocalizations.of(context)!.resendCode,
                 style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey,

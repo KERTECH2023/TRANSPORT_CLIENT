@@ -33,14 +33,16 @@ def keystoreProperties = new Properties()
    }
 
 android {
-    compileSdkVersion 33
-    ndkVersion flutter.ndkVersion
-
+    compileSdkVersion 34
+    ndkVersion  "25.1.8937393"
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
     }
 
+    lintOptions {
+        disable 'UncheckedAssignment'
+    }
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -50,15 +52,15 @@ android {
     }
 
     defaultConfig {
-        multiDexEnabled true
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "transport.app.users_app"
+        applicationId "transport.app.drivers_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-        minSdkVersion 20
+        minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled = true
     }
 
     signingConfigs {
@@ -84,10 +86,7 @@ flutter {
 }
 
 dependencies {
-    implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
     implementation platform('com.google.firebase:firebase-bom:32.0.0')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.multidex:multidex:2.0.1"
 }
-
 
