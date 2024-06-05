@@ -9,7 +9,7 @@ import '../InfoHandler/app_info.dart';
 import '../assistants/request_assistant.dart';
 
 class SearchPlaces extends StatefulWidget {
-  const SearchPlaces({Key? key}) : super(key: key);
+  const SearchPlaces({super.key});
 
   @override
   State<SearchPlaces> createState() => _SearchPlacesState();
@@ -122,7 +122,7 @@ class _SearchPlacesState extends State<SearchPlaces> {
                         Center(
                           child: Text(
                             AppLocalizations.of(context)!.selectyourdes,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
@@ -167,11 +167,11 @@ class _SearchPlacesState extends State<SearchPlaces> {
                                     color: Colors.grey.shade100,
                                   ),
                                 ),
-                                contentPadding: EdgeInsets.only(
+                                contentPadding: const EdgeInsets.only(
                                     top: 8.0, bottom: 8.0, left: 10.0)),
                           ),
                         ),
-                        (placesPredictedList1.length > 0)
+                        (placesPredictedList1.isNotEmpty)
                             ? Expanded(
                                 child: ListView.separated(
                                   itemCount: placesPredictedList1.length,
@@ -240,7 +240,7 @@ class _SearchPlacesState extends State<SearchPlaces> {
             ),
 
             // Display Place Predicted Results
-            (placesPredictedList.length > 0)
+            (placesPredictedList.isNotEmpty)
                 ? Expanded(
                     child: ListView.separated(
                       itemCount: placesPredictedList.length,

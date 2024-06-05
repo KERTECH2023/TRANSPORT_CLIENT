@@ -11,6 +11,8 @@ import '../models/active_nearby_available_drivers.dart';
 class SelectActiveDriverScreen extends StatefulWidget {
   static DatabaseReference? referenceRideRequest;
 
+  const SelectActiveDriverScreen({super.key});
+
   @override
   State<SelectActiveDriverScreen> createState() =>
       _SelectActiveDriverScreenState();
@@ -123,10 +125,10 @@ class _SelectActiveDriverScreenState extends State<SelectActiveDriverScreen> {
         backgroundColor: Colors.white,
         title: Text(
           AppLocalizations.of(context)!.selectNearestDriver,
-          style: TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 18),
         ),
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.close,
             color: Colors.black,
           ),
@@ -173,7 +175,7 @@ print("driverId:${driversList.first["id"]}");
                 color: Colors.white,
                 elevation: 3,
                 shadowColor: Colors.black,
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 child: ListTile(
                   leading: Padding(
                     padding: const EdgeInsets.only(top: 2.0),

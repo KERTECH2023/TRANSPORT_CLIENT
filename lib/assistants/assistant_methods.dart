@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:firebase_auth_platform_interface/src/id_token_result.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart'
     as firebase_messaging;
@@ -72,7 +72,7 @@ class AssistantMethods {
 
     final client = await clientViaServiceAccount(
         credentials, ['https://www.googleapis.com/auth/firebase.messaging']);
-    final AccessCredentials accessCredentials = await client.credentials;
+    final AccessCredentials accessCredentials =  client.credentials;
 
     return accessCredentials.accessToken.data;
   }
@@ -195,7 +195,7 @@ print("fareAmountPerKilometer $fareAmountPerKilometer");
 
     double totalFareAmount = fareAmountPerKilometer / 1000;
     print("totalFareAmount: $totalFareAmount");
-    return double.parse(totalFareAmount.toStringAsFixed(1));;
+    return double.parse(totalFareAmount.toStringAsFixed(1));
   }
 
   // static Future<double> getTarifs() async {

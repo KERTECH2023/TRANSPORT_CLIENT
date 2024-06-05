@@ -1,11 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
 class RequestAssistant{
 
+  // ignore: non_constant_identifier_names
   static Future<dynamic> ReceiveRequest(String url) async {
 
     try{

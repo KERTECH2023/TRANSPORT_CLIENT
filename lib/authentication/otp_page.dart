@@ -6,6 +6,8 @@ import 'package:users_app/mainScreens/main_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OtpPage extends StatefulWidget {
+  const OtpPage({super.key});
+
   @override
   _OtpPageState createState() => _OtpPageState();
 }
@@ -66,21 +68,21 @@ class _OtpPageState extends State<OtpPage> {
     }
   }
 
-  _buildSocialLogo(file) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Image.asset(
-          file,
-          height: 38.5,
-        ),
-      ],
-    );
-  }
+  // _buildSocialLogo(file) {
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     children: <Widget>[
+  //       Image.asset(
+  //         file,
+  //         height: 38.5,
+  //       ),
+  //     ],
+  //   );
+  // }
 
   final ButtonStyle style = ElevatedButton.styleFrom(
-      minimumSize: Size(188, 48),
-      backgroundColor: Color(0xFFFD7877),
+      minimumSize: const Size(188, 48),
+      backgroundColor: const Color(0xFFFD7877),
       elevation: 6,
       textStyle: const TextStyle(fontSize: 16),
       shape: const RoundedRectangleBorder(
@@ -91,18 +93,18 @@ class _OtpPageState extends State<OtpPage> {
   Widget buildText(String text) => Center(
     child: Text(
       text,
-      style: TextStyle(fontSize: 24, color: Colors.white),
+      style: const TextStyle(fontSize: 24, color: Colors.white),
     ),
   );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff0F2B2F),
+      backgroundColor: const Color(0xff0F2B2F),
       // backgroundColor: Color(0xff215D5F),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -139,17 +141,17 @@ class _OtpPageState extends State<OtpPage> {
                   onPressed: _login,
                   child: Text(
                     AppLocalizations.of(context)!.loginas,
-                    style: TextStyle(fontSize: 14, color: Colors.white),
+                    style: const TextStyle(fontSize: 14, color: Colors.white),
                   )),
               const SizedBox(height: 80),
                Text(
                 AppLocalizations.of(context)!.errorcode,
-                style: TextStyle(fontSize: 12, color: Colors.grey),
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
               ),
               const SizedBox(height: 10),
                Text(
                 AppLocalizations.of(context)!.resendCode,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 14,
                     color: Colors.grey,
                     fontWeight: FontWeight.w600),

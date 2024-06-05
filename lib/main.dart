@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,9 +20,43 @@ import 'mainScreens/rate_driver_screen.dart';
 import 'mainScreens/search_places_screen.dart';
 import 'mainScreens/select_active_driver_screen.dart';
 import 'splashScreen/splash_screen.dart';
+import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
+import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
 
+Completer<AndroidMapRenderer?>? _initializedRendererCompleter;
+Future<AndroidMapRenderer?> initializeMapRenderer() async {
+  if (_initializedRendererCompleter != null) {
+    return _initializedRendererCompleter!.future;
+  }
+
+  final Completer<AndroidMapRenderer?> completer =
+      Completer<AndroidMapRenderer?>();
+  _initializedRendererCompleter = completer;
+
+  final GoogleMapsFlutterPlatform mapsImplementation =
+      GoogleMapsFlutterPlatform.instance;
+  if (mapsImplementation is GoogleMapsFlutterAndroid) {
+    unawaited(mapsImplementation
+        .initializeWithRenderer(AndroidMapRenderer.latest)
+        .then((AndroidMapRenderer initializedRenderer) =>
+            completer.complete(initializedRenderer)));
+  } else {
+    completer.complete(null);
+  }
+
+  return completer.future;
+}
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+if (Platform.isAndroid) {
+    final GoogleMapsFlutterPlatform mapsImplementation =
+        GoogleMapsFlutterPlatform.instance;
+    if (mapsImplementation is GoogleMapsFlutterAndroid) {
+      mapsImplementation.useAndroidViewSurface = true;
+      initializeMapRenderer();
+    }
+}
+
   await Firebase.initializeApp();
 
   runApp(await initializeApp());
@@ -61,7 +98,7 @@ class _MyAppState extends State<MyApp> {
   Locale? _locale;
 
   setLocale(Locale locale) {
-    setState(() {
+    setState(() {// For T
       _locale = locale;
     });
   }

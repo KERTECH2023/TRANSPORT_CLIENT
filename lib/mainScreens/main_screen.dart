@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -33,13 +35,13 @@ import '../assistants/assistant_methods.dart';
 import '../widgets/progress_dialog.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen>  with AutomaticKeepAliveClientMixin{
   final Completer<GoogleMapController> _controllerGoogleMap = Completer();
   GoogleMapController? newMapController;
 
@@ -110,9 +112,9 @@ class _MainScreenState extends State<MainScreen> {
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
     userName = currentUserInfo!.name!;
-    String humanReadableAddress =
-        await AssistantMethods.searchAddressForGeographicCoordinates(
-            userCurrentPosition!, context);
+    // String humanReadableAddress =
+    //     await AssistantMethods.searchAddressForGeographicCoordinates(
+    //         userCurrentPosition!, context);
     initializeGeoFireListener(); // Show Active Drivers
   }
 
@@ -211,7 +213,7 @@ class _MainScreenState extends State<MainScreen> {
           double fareAmount=0.0;
           // Suppose fareAmount is calculated elsewhere in your code
           fareAmount =
-          await AssistantMethods.calculateFareAmountFromSourceToDestination(
+           AssistantMethods.calculateFareAmountFromSourceToDestination(
               tripDirectionDetailsInfo!);
           print("fareamountmk:$fareAmount");
           var requestBody = {
@@ -262,7 +264,7 @@ class _MainScreenState extends State<MainScreen> {
           print("fareamount:$fareAmount");
           // Suppose fareAmount is calculated elsewhere in your code
           fareAmount =
-          await AssistantMethods.calculateFareAmountFromSourceToDestination(
+           AssistantMethods.calculateFareAmountFromSourceToDestination(
               tripDirectionDetailsInfo!);
           print("fareamount:$fareAmount");
           referenceRideRequest!.update({
@@ -287,7 +289,7 @@ class _MainScreenState extends State<MainScreen> {
           print("fareamount:$fareAmount");
           // Suppose fareAmount is calculated elsewhere in your code
           fareAmount =
-              await AssistantMethods.calculateFareAmountFromSourceToDestination(
+               AssistantMethods.calculateFareAmountFromSourceToDestination(
                   tripDirectionDetailsInfo!);
           print("fareamount:$fareAmount");
           // Enregistrer le montant du trajet dans la base de données
@@ -324,23 +326,22 @@ class _MainScreenState extends State<MainScreen> {
 print("ress$response");
             if (response == "Cash Paid") {
               // Rate the driver
-              if ((snapshot.value as Map)["driverId"].toString() != null) {
-                // fetch the driverId and move to RateDriverScreen
-                String assignedDriverId =
-                    (snapshot.value as Map)["driverId"].toString();
-                print("assinged:$assignedDriverId");
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => RateDriverScreen(
-                            assignedDriverId: assignedDriverId,
-                            driverName: driverName)));
+              // fetch the driverId and move to RateDriverScreen
+              String assignedDriverId =
+                  (snapshot.value as Map)["driverId"].toString();
+              print("assinged:$assignedDriverId");
+              Navigator.push(
+                  // ignore: use_build_context_synchronously
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => RateDriverScreen(
+                          assignedDriverId: assignedDriverId,
+                          driverName: driverName)));
 
-                referenceRideRequest!
-                    .onDisconnect(); //Stop listening to live changes on the rideRequest
-                rideRequestInfoStreamSubscription!.cancel();
-              }
-            }
+              referenceRideRequest!
+                  .onDisconnect(); //Stop listening to live changes on the rideRequest
+              rideRequestInfoStreamSubscription!.cancel();
+                        }
 
         }
       }
@@ -402,8 +403,7 @@ print("ress$response");
       setState(() {
         Fluttertoast.showToast(
             msg: directionDetailsInfo.duration_text.toString());
-        driverRideStatus = "Time to destination: " +
-            directionDetailsInfo.duration_text.toString();
+        driverRideStatus = "Time to destination: ${directionDetailsInfo.duration_text}";
       });
 
       requestPositionInfo = true;
@@ -438,6 +438,7 @@ print("ress$response");
     // Move to select driver screen
     SelectActiveDriverScreen.referenceRideRequest = referenceRideRequest;
     var response =
+        // ignore: use_build_context_synchronously
         await Navigator.pushNamed(context, '/select_active_driver_screen');
 
     if (response == "Driver chosen") {
@@ -475,7 +476,7 @@ String driverId=onlineAvailableDriversList[i].driverId;
           ...driversData,
 
         };
-         print("this is driver info" + driversData.toString());
+         print("this is driver info$driversData");
        // var response =  http.get('https://maps.googleapis.com/maps/api/distancematrix/json?destinations=,-73.933783&origins=40.6655101,-73.89188969999998&key=AIzaSyCATDsiH6Q7CAACXb47qDJhOuCUuQjs4lg' as Uri);
        // print(response)
 
@@ -566,14 +567,24 @@ String driverId=onlineAvailableDriversList[i].driverId;
     pushNotificationSystem.generateAndGetToken();
     AssistantMethods.readRideRequestKeys(context);
   }
+ @override
+  bool get wantKeepAlive => true;
 
-
+   void _onMapCreated(GoogleMapController controller) {
+    if (newMapController==null){
+_controllerGoogleMap.complete(controller);
+                  newMapController = controller;
+                  locateUserPosition();
+    }
+                  
+                }
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     // createActiveDriverIconMarker();
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 0, 0, 0),
+          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
           title: Text(AppLocalizations.of(context)!.homePage),
           actions: <Widget>[
             Padding(
@@ -586,8 +597,8 @@ String driverId=onlineAvailableDriversList[i].driverId;
                 ),
                 onChanged: (Language? language) async {
                   if (language != null) {
-                    Locale _locale = await setLocale(language.languageCode);
-                    MyApp.setLocale(context, _locale);
+                    Locale locale = await setLocale(language.languageCode);
+                    MyApp.setLocale(context, locale);
                   }
                 },
                 items: Language.languageList()
@@ -632,11 +643,8 @@ String driverId=onlineAvailableDriversList[i].driverId;
                 zoomControlsEnabled: true,
                 zoomGesturesEnabled: true,
                 initialCameraPosition: _kGooglePlex,
-                onMapCreated: (GoogleMapController controller) {
-                  _controllerGoogleMap.complete(controller);
-                  newMapController = controller;
-                  locateUserPosition();
-                },
+                onMapCreated: _onMapCreated,
+
               ),
 
               // Button for Drawer
@@ -704,7 +712,7 @@ String driverId=onlineAvailableDriversList[i].driverId;
                                   children: [
                                     Text(
                                       AppLocalizations.of(context)!.from,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.black, fontSize: 12),
                                     ),
                                     Text(
@@ -1194,10 +1202,10 @@ String driverId=onlineAvailableDriversList[i].driverId;
     polyLineCoordinatesList.clear();
 
     if (decodedPolyLinePointsList.isNotEmpty) {
-      decodedPolyLinePointsList.forEach((PointLatLng pointLatLng) {
+      for (var pointLatLng in decodedPolyLinePointsList) {
         polyLineCoordinatesList
             .add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
-      });
+      }
     }
 
     polyLineSet.clear();
@@ -1463,9 +1471,8 @@ String driverId=onlineAvailableDriversList[i].driverId;
       circlesSet.clear();
     });
 
-    Set<Marker> driversMarkerSet = Set<Marker>();
+    Set<Marker> driversMarkerSet = <Marker>{};
 
-    GeoFireAssistant geoFireAssistant = GeoFireAssistant();
 
     for (ActiveNearbyAvailableDrivers eachDriver
         in GeoFireAssistant.activeNearbyAvailableDriversList) {

@@ -85,13 +85,13 @@ class PlacesPredictionTileDesign extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    predictedPlaces!.secondary_text!,
-                    style: const TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.black,
-                    ),
-                  ),
+                  // Text(
+                  //   predictedPlaces!.secondary_text!,
+                  //   style: const TextStyle(
+                  //     fontSize: 12.0,
+                  //     color: Colors.black,
+                  //   ),
+                  // ),
                 ],
               ),
             )
