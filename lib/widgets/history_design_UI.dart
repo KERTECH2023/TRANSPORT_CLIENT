@@ -1,12 +1,12 @@
-// ignore: file_names
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:users_app/models/trip_history_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class HistoryDesignUI extends StatefulWidget {
-  final  TripHistoryModel? tripHistoryModel;
+  TripHistoryModel? tripHistoryModel;
 
-  const HistoryDesignUI({super.key, this.tripHistoryModel});
+  HistoryDesignUI({this.tripHistoryModel});
 
   @override
   State<HistoryDesignUI> createState() => _HistoryDesignUIState();
@@ -25,7 +25,7 @@ class _HistoryDesignUIState extends State<HistoryDesignUI> {
     return Container(
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -47,7 +47,7 @@ class _HistoryDesignUIState extends State<HistoryDesignUI> {
 
             // Car details
             Text(
-              "${widget.tripHistoryModel!.carModel!} - ${widget.tripHistoryModel!.carNumber!}",
+              widget.tripHistoryModel!.carModel! + " - " + widget.tripHistoryModel!.carNumber!,
               style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -60,7 +60,7 @@ class _HistoryDesignUIState extends State<HistoryDesignUI> {
             // " - "
              Text(
              widget.tripHistoryModel!.driverName! ,
-              style: const TextStyle(
+              style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.grey
@@ -79,7 +79,7 @@ class _HistoryDesignUIState extends State<HistoryDesignUI> {
                   children: [
                      Text(
                       AppLocalizations.of(context)!.distance,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
                           color: Colors.redAccent
@@ -89,8 +89,8 @@ class _HistoryDesignUIState extends State<HistoryDesignUI> {
                     const SizedBox(height: 5),
 
                     Text(
-                    "${widget.tripHistoryModel!.sourceAddress!} - ${widget.tripHistoryModel!.destinationAddress!}",
-                      style: const TextStyle(
+                    widget.tripHistoryModel!.sourceAddress! + " - " + widget.tripHistoryModel!.destinationAddress!,
+                      style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
                           color: Colors.black
@@ -111,7 +111,7 @@ class _HistoryDesignUIState extends State<HistoryDesignUI> {
                   children: [
                      Text(
                       AppLocalizations.of(context)!.fare,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: Colors.redAccent
@@ -122,7 +122,7 @@ class _HistoryDesignUIState extends State<HistoryDesignUI> {
 
                     Text(
                       widget.tripHistoryModel!.fareAmount! +  AppLocalizations.of(context)!.dinar,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
                           color: Colors.black

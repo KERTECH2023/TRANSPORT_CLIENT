@@ -1,11 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:users_app/widgets/history_design_UI.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../InfoHandler/app_info.dart';
 
 class TripHistoryScreen extends StatefulWidget {
-  const TripHistoryScreen({super.key});
+  const TripHistoryScreen({Key? key}) : super(key: key);
 
   @override
   State<TripHistoryScreen> createState() => _TripHistoryScreenState();

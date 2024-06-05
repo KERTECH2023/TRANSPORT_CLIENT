@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ProgressDialog extends StatelessWidget {
 
-  final String? message;
+ final String message;
 
   const ProgressDialog({super.key, required this.message});
 
@@ -31,7 +31,7 @@ class ProgressDialog extends StatelessWidget {
                 const SizedBox(width: 26.0),
 
                 Text(
-                  message!,
+                  message,
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 12
@@ -49,5 +49,5 @@ class ProgressDialog extends StatelessWidget {
   }
 }
 
-
+// 
 

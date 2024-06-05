@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_platform_interface/src/id_token_result.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart'
     as firebase_messaging;
@@ -72,7 +72,7 @@ class AssistantMethods {
 
     final client = await clientViaServiceAccount(
         credentials, ['https://www.googleapis.com/auth/firebase.messaging']);
-    final AccessCredentials accessCredentials =  client.credentials;
+    final AccessCredentials accessCredentials = await client.credentials;
 
     return accessCredentials.accessToken.data;
   }
@@ -143,7 +143,7 @@ class AssistantMethods {
     // Sending the api Url to the static method to use the url to fetch the driving directions in Json format.
     var response = await RequestAssistant.ReceiveRequest(
         urlOriginToDestinationDirectionDetails);
-
+print("response:$response");
     if (response == "Error fetching the request") {
       return null;
     }
@@ -195,7 +195,7 @@ print("fareAmountPerKilometer $fareAmountPerKilometer");
 
     double totalFareAmount = fareAmountPerKilometer / 1000;
     print("totalFareAmount: $totalFareAmount");
-    return double.parse(totalFareAmount.toStringAsFixed(1));
+    return double.parse(totalFareAmount.toStringAsFixed(1));;
   }
 
   // static Future<double> getTarifs() async {
@@ -316,8 +316,6 @@ print("fareAmountPerKilometer $fareAmountPerKilometer");
     Map<String, dynamic> fcm = {
       "message": message,
     };
-
-    // Work of postman to send notification
     var responseNotification = await post(
       Uri.parse(
           'https://fcm.googleapis.com/v1/projects/transport-app-36443/messages:send'),
@@ -325,13 +323,17 @@ print("fareAmountPerKilometer $fareAmountPerKilometer");
       body: jsonEncode(fcm),
     );
     print("ssssssssssssssssssssssssssssssssssssssssss");
-    //  } else {
-    //       print('User is not authenticated');
-    //     }
+    
+
+    // Work of postman to send notification
+    
+ 
   }
 
   // For Trip history
-  static void readRideRequestKeys(context) {
+ static  void readRideRequestKeys(context) {
+
+ // print("mahdi${currentUserInfo!.name}");
     FirebaseDatabase.instance
         .ref()
         .child("AllRideRequests")

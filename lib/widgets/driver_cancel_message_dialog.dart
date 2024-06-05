@@ -1,10 +1,9 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class DriverCancelMessageDialog extends StatefulWidget {
-  const DriverCancelMessageDialog({Key? key}) : super(key: key);
+  const DriverCancelMessageDialog({super.key});
 
   @override
   State<DriverCancelMessageDialog> createState() => _DriverCancelMessageDialogState();
@@ -18,7 +17,7 @@ class _DriverCancelMessageDialogState extends State<DriverCancelMessageDialog> {
       ),
       backgroundColor: Colors.black,
       child: Container(
-        margin: EdgeInsets.all(6),
+        margin: const EdgeInsets.all(6),
         width: double.infinity,
         decoration: BoxDecoration(
             color: Colors.white,
@@ -32,7 +31,7 @@ class _DriverCancelMessageDialogState extends State<DriverCancelMessageDialog> {
             children: [
                Text(
                AppLocalizations.of(context)!.tripMessage,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                     color: Colors.black
@@ -44,7 +43,7 @@ class _DriverCancelMessageDialogState extends State<DriverCancelMessageDialog> {
                Text(
                 AppLocalizations.of(context)!.driverhascancelledyourtrip,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.black
@@ -56,7 +55,7 @@ class _DriverCancelMessageDialogState extends State<DriverCancelMessageDialog> {
                Text(
                  AppLocalizations.of(context)!.rideStatusCancelled,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 30,
                     color: Colors.black
                 ),
@@ -86,7 +85,7 @@ class _DriverCancelMessageDialogState extends State<DriverCancelMessageDialog> {
                   child:  Text(
                     AppLocalizations.of(context)!.submit,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white

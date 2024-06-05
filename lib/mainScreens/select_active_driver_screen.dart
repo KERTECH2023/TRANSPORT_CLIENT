@@ -11,8 +11,6 @@ import '../models/active_nearby_available_drivers.dart';
 class SelectActiveDriverScreen extends StatefulWidget {
   static DatabaseReference? referenceRideRequest;
 
-  const SelectActiveDriverScreen({super.key});
-
   @override
   State<SelectActiveDriverScreen> createState() =>
       _SelectActiveDriverScreenState();
@@ -120,15 +118,16 @@ class _SelectActiveDriverScreenState extends State<SelectActiveDriverScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
           AppLocalizations.of(context)!.selectNearestDriver,
-          style: const TextStyle(fontSize: 18),
+          style: TextStyle(fontSize: 18),
         ),
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.close,
             color: Colors.black,
           ),
@@ -146,17 +145,19 @@ class _SelectActiveDriverScreenState extends State<SelectActiveDriverScreen> {
         itemBuilder: (BuildContext context, int index) {
           print(" builde ${driversList.length}");
 print("driverId:${driversList.first["id"]}");
-
-          if (
-              driversList[index]?["name"] != null &&
-              driversList[index]?["carDetails"] != null &&
-          driversList[index]?["newRideStatus"] == "Idle"
+print("mk${driversList.toList()[index]?["name"]
+}")  ;
+print("mk${driversList.elementAt(index)?["name"]}")   ;
+     if (
+              driversList.toList()[index]?["name"] != null &&
+              driversList.toList()[index]?["carDetails"] != null &&
+          driversList.toList()[index]?["newRideStatus"] == "Idle"
           ) {
 
               ActiveNearbyAvailableDrivers driver = ActiveNearbyAvailableDrivers(
-              id:driversList[index]?["id"]?.toString() ,
-              name: driversList[index]?["name"]?.toString(),
-              carDetails: (driversList[index]?["carDetails"] as Map?)
+              id:driversList.toList()[index]?["id"]?.toString() ,
+              name: driversList.toList()[index]?["name"]?.toString(),
+              carDetails: (driversList.toList()[index]?["carDetails"] as Map?)
                   ?.cast<String, dynamic>(),
             );
 
@@ -175,7 +176,7 @@ print("driverId:${driversList.first["id"]}");
                 color: Colors.white,
                 elevation: 3,
                 shadowColor: Colors.black,
-                margin: const EdgeInsets.all(8),
+                margin: EdgeInsets.all(8),
                 child: ListTile(
                   leading: Padding(
                     padding: const EdgeInsets.only(top: 2.0),

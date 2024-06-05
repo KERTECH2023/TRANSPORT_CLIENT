@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:async';
 import 'dart:convert';
 
@@ -13,6 +11,7 @@ import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -34,16 +33,17 @@ import '../InfoHandler/app_info.dart';
 import '../assistants/assistant_methods.dart';
 import '../widgets/progress_dialog.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class MainScreen extends StatefulWidget  {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen>  with AutomaticKeepAliveClientMixin{
+class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver{
   final Completer<GoogleMapController> _controllerGoogleMap = Completer();
   GoogleMapController? newMapController;
+
 
   AssistantMethods notificationServices = AssistantMethods();
   static const CameraPosition _kGooglePlex = CameraPosition(
@@ -59,7 +59,7 @@ class _MainScreenState extends State<MainScreen>  with AutomaticKeepAliveClientM
   double assignedDriverInfoContainerHeight = 0;
 
   Position? userCurrentPosition;
-  var geoLocator = Geolocator();
+ var geoLocator = Geolocator();
   LocationPermission? _locationPermission;
   String riderequestid = "";
   List<LatLng> polyLineCoordinatesList = [];
@@ -112,9 +112,9 @@ class _MainScreenState extends State<MainScreen>  with AutomaticKeepAliveClientM
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
     userName = currentUserInfo!.name!;
-    // String humanReadableAddress =
-    //     await AssistantMethods.searchAddressForGeographicCoordinates(
-    //         userCurrentPosition!, context);
+    String humanReadableAddress =
+        await AssistantMethods.searchAddressForGeographicCoordinates(
+            userCurrentPosition!, context);
     initializeGeoFireListener(); // Show Active Drivers
   }
 
@@ -213,7 +213,7 @@ class _MainScreenState extends State<MainScreen>  with AutomaticKeepAliveClientM
           double fareAmount=0.0;
           // Suppose fareAmount is calculated elsewhere in your code
           fareAmount =
-           AssistantMethods.calculateFareAmountFromSourceToDestination(
+          await AssistantMethods.calculateFareAmountFromSourceToDestination(
               tripDirectionDetailsInfo!);
           print("fareamountmk:$fareAmount");
           var requestBody = {
@@ -289,7 +289,7 @@ class _MainScreenState extends State<MainScreen>  with AutomaticKeepAliveClientM
           print("fareamount:$fareAmount");
           // Suppose fareAmount is calculated elsewhere in your code
           fareAmount =
-               AssistantMethods.calculateFareAmountFromSourceToDestination(
+              await AssistantMethods.calculateFareAmountFromSourceToDestination(
                   tripDirectionDetailsInfo!);
           print("fareamount:$fareAmount");
           // Enregistrer le montant du trajet dans la base de données
@@ -326,22 +326,23 @@ class _MainScreenState extends State<MainScreen>  with AutomaticKeepAliveClientM
 print("ress$response");
             if (response == "Cash Paid") {
               // Rate the driver
-              // fetch the driverId and move to RateDriverScreen
-              String assignedDriverId =
-                  (snapshot.value as Map)["driverId"].toString();
-              print("assinged:$assignedDriverId");
-              Navigator.push(
-                  // ignore: use_build_context_synchronously
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => RateDriverScreen(
-                          assignedDriverId: assignedDriverId,
-                          driverName: driverName)));
+              if ((snapshot.value as Map)["driverId"].toString() != null) {
+                // fetch the driverId and move to RateDriverScreen
+                String assignedDriverId =
+                    (snapshot.value as Map)["driverId"].toString();
+                print("assinged:$assignedDriverId");
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => RateDriverScreen(
+                            assignedDriverId: assignedDriverId,
+                            driverName: driverName)));
 
-              referenceRideRequest!
-                  .onDisconnect(); //Stop listening to live changes on the rideRequest
-              rideRequestInfoStreamSubscription!.cancel();
-                        }
+                referenceRideRequest!
+                    .onDisconnect(); //Stop listening to live changes on the rideRequest
+                rideRequestInfoStreamSubscription!.cancel();
+              }
+            }
 
         }
       }
@@ -354,7 +355,7 @@ print("ress$response");
         );
      onlineAvailableDriversList =
         GeoFireAssistant.activeNearbyAvailableDriversList;
-     print("on2${onlineAvailableDriversList.last.driverId}");
+     //print("on2${onlineAvailableDriversList.last.driverId}");
     searchNearestOnlineDrivers();
   }
 
@@ -403,7 +404,8 @@ print("ress$response");
       setState(() {
         Fluttertoast.showToast(
             msg: directionDetailsInfo.duration_text.toString());
-        driverRideStatus = "Time to destination: ${directionDetailsInfo.duration_text}";
+        driverRideStatus = "Time to destination: " +
+            directionDetailsInfo.duration_text.toString();
       });
 
       requestPositionInfo = true;
@@ -411,6 +413,7 @@ print("ress$response");
   }
 
   void searchNearestOnlineDrivers() async {
+    
     if (onlineAvailableDriversList.isEmpty) {
       // Remove user Information for ride request from database
       referenceRideRequest!.remove();
@@ -429,16 +432,11 @@ print("ress$response");
 
       return;
     }
-    print("on${onlineAvailableDriversList.toString()}");
-    
-
-    //retrieve active driver information
+    else{
+   //   driversList.clear(); // Clear the set before updating it
     await retrieveOnlineDriversInformation(onlineAvailableDriversList);
-
-    // Move to select driver screen
-    SelectActiveDriverScreen.referenceRideRequest = referenceRideRequest;
+     SelectActiveDriverScreen.referenceRideRequest = referenceRideRequest;
     var response =
-        // ignore: use_build_context_synchronously
         await Navigator.pushNamed(context, '/select_active_driver_screen');
 
     if (response == "Driver chosen") {
@@ -451,6 +449,7 @@ print("ress$response");
         DataSnapshot snapshot = snapData.snapshot;
         print(snapshot.value);
         if (snapshot.exists) {
+          
           setRideStatusAndGetRegToken(chosenDriverId);
         } else {
           Fluttertoast.showToast(
@@ -458,6 +457,14 @@ print("ress$response");
         }
       });
     }
+
+    }
+    print("on${onlineAvailableDriversList.toString()}");
+    
+
+    //retrieve active driver information
+
+    // Move to select driver screen
   }
 
   retrieveOnlineDriversInformation(List onlineAvailableDriversList) async {
@@ -476,12 +483,14 @@ String driverId=onlineAvailableDriversList[i].driverId;
           ...driversData,
 
         };
-         print("this is driver info$driversData");
+         print("this is driver info" + driversData.toString());
        // var response =  http.get('https://maps.googleapis.com/maps/api/distancematrix/json?destinations=,-73.933783&origins=40.6655101,-73.89188969999998&key=AIzaSyCATDsiH6Q7CAACXb47qDJhOuCUuQjs4lg' as Uri);
-       // print(response)
+       // print(response)7
+       print("tesss${driversList.any((driverInList) => driverInList['id'] == driverId)}");
 
-
-        driversList.add(driver);
+if (!driversList.any((driverInList) => driverInList['id'] == driverId)) {
+  driversList.add(driver);
+}
       });
     }
   }
@@ -520,7 +529,7 @@ String driverId=onlineAvailableDriversList[i].driverId;
             .listen((eventSnapShoot) // Listen to changes of newRideStatus
                 {
           DataSnapshot dataSnap = eventSnapShoot.snapshot;
-          print('dataSnap ${dataSnap}');
+          print('dataSnap...........${dataSnap.value}');
           // newRideStatus == "idle", Driver Cancelled the trip
           if (dataSnap.value == "idle") {
             showDialog(
@@ -534,6 +543,7 @@ String driverId=onlineAvailableDriversList[i].driverId;
           // newRideStatus == "Accepted", Driver Cancelled the trip
           else if (dataSnap.value == "Accepted") {
             showUIForAssignedDriverInfo();
+
           }
         });
       }
@@ -556,8 +566,7 @@ String driverId=onlineAvailableDriversList[i].driverId;
       responseFromDriverContainerHeight = 220;
     });
   }
-
-  @override
+ @override
   void initState() {
     super.initState();
     notificationServices.requestNotificationPermission();
@@ -567,24 +576,18 @@ String driverId=onlineAvailableDriversList[i].driverId;
     pushNotificationSystem.generateAndGetToken();
     AssistantMethods.readRideRequestKeys(context);
   }
- @override
-  bool get wantKeepAlive => true;
+@override
+void dispose() {
 
-   void _onMapCreated(GoogleMapController controller) {
-    if (newMapController==null){
-_controllerGoogleMap.complete(controller);
-                  newMapController = controller;
-                  locateUserPosition();
-    }
-                  
-                }
+  super.dispose();
+}
+
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     // createActiveDriverIconMarker();
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+          backgroundColor: Color.fromARGB(255, 0, 0, 0),
           title: Text(AppLocalizations.of(context)!.homePage),
           actions: <Widget>[
             Padding(
@@ -597,8 +600,8 @@ _controllerGoogleMap.complete(controller);
                 ),
                 onChanged: (Language? language) async {
                   if (language != null) {
-                    Locale locale = await setLocale(language.languageCode);
-                    MyApp.setLocale(context, locale);
+                    Locale _locale = await setLocale(language.languageCode);
+                    MyApp.setLocale(context, _locale);
                   }
                 },
                 items: Language.languageList()
@@ -634,6 +637,8 @@ _controllerGoogleMap.complete(controller);
             createActiveDriverIconMarker();
             return Stack(children: [
               GoogleMap(
+                key: ValueKey('google_map'),
+
                 padding: EdgeInsets.only(bottom: bottomPaddingofMap),
                 mapType: MapType.normal,
                 polylines: polyLineSet,
@@ -642,9 +647,14 @@ _controllerGoogleMap.complete(controller);
                 myLocationEnabled: true,
                 zoomControlsEnabled: true,
                 zoomGesturesEnabled: true,
-                initialCameraPosition: _kGooglePlex,
-                onMapCreated: _onMapCreated,
 
+                initialCameraPosition: _kGooglePlex,
+                onMapCreated: (GoogleMapController controller) {
+                  _controllerGoogleMap.complete(controller);
+                  newMapController = controller;
+                  locateUserPosition();
+                
+                },
               ),
 
               // Button for Drawer
@@ -699,7 +709,7 @@ _controllerGoogleMap.complete(controller);
                                   openNavigationDrawer = false;
                                 });
 
-                                await drawPolylineFromSourceToDestination();
+                               await drawPolylineFromSourceToDestination();
                               }
                             },
                             child: Row(
@@ -712,7 +722,7 @@ _controllerGoogleMap.complete(controller);
                                   children: [
                                     Text(
                                       AppLocalizations.of(context)!.from,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           color: Colors.black, fontSize: 12),
                                     ),
                                     Text(
@@ -929,9 +939,9 @@ _controllerGoogleMap.complete(controller);
                                   backgroundColor: Colors.white,
                                   minRadius: 30,
                                   maxRadius: 40,
-                                  child: Image.asset(
-                                    "images/Passport_Photo.png",
-                                  ),
+                                  // child: Image.asset(
+                                  //  // "images/Passport_Photo.png",
+                                  // ),
                                 ),
 
                                 const SizedBox(
@@ -1202,10 +1212,10 @@ _controllerGoogleMap.complete(controller);
     polyLineCoordinatesList.clear();
 
     if (decodedPolyLinePointsList.isNotEmpty) {
-      for (var pointLatLng in decodedPolyLinePointsList) {
+      decodedPolyLinePointsList.forEach((PointLatLng pointLatLng) {
         polyLineCoordinatesList
             .add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
-      }
+      });
     }
 
     polyLineSet.clear();
@@ -1471,8 +1481,9 @@ _controllerGoogleMap.complete(controller);
       circlesSet.clear();
     });
 
-    Set<Marker> driversMarkerSet = <Marker>{};
+    Set<Marker> driversMarkerSet = Set<Marker>();
 
+    GeoFireAssistant geoFireAssistant = GeoFireAssistant();
 
     for (ActiveNearbyAvailableDrivers eachDriver
         in GeoFireAssistant.activeNearbyAvailableDriversList) {
@@ -1503,4 +1514,6 @@ _controllerGoogleMap.complete(controller);
       });
     }
   }
+
+
 }

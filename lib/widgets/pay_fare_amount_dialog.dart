@@ -13,15 +13,15 @@ class PayFareDialog extends StatefulWidget {
   String? driverName;
   Directions? destinationAddress;
   Directions? sourceAddress;
-  PayFareDialog({this.fareAmount, this.driverName,this.destinationAddress,this.sourceAddress});
+  PayFareDialog({super.key, this.fareAmount, this.driverName,this.destinationAddress,this.sourceAddress});
 
   @override
   State<PayFareDialog> createState() => _PayFareDialogState();
 }
 
 class _PayFareDialogState extends State<PayFareDialog> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   Future<void> sendTripEmail(String userEmail, String tripDetails) async {
     final smtpServer = gmail("mahdikaroui383@gmail.com", "doyr zflv xvcu rumh");
 
@@ -44,12 +44,12 @@ class _PayFareDialogState extends State<PayFareDialog> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5)
       ),
-      backgroundColor: Color.fromRGBO(0 , 177 , 118, 1),
+      backgroundColor: const Color.fromRGBO(0 , 177 , 118, 1),
       child: Container(
-        margin: EdgeInsets.all(6),
+        margin: const EdgeInsets.all(6),
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Color.fromRGBO(0 , 177 , 118, 1),
+          color: const Color.fromRGBO(0 , 177 , 118, 1),
           borderRadius: BorderRadius.circular(6)
         ),
 
@@ -60,7 +60,7 @@ class _PayFareDialogState extends State<PayFareDialog> {
             children: [
                Text(
                 AppLocalizations.of(context)!.tripFareAmount,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                     color: Colors.white
@@ -72,7 +72,7 @@ class _PayFareDialogState extends State<PayFareDialog> {
                Text(
                 AppLocalizations.of(context)!.paydriver,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.white
@@ -128,7 +128,7 @@ print("useremail:$userEmail");
                   child:  Text(
                     AppLocalizations.of(context)!.paycash,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white

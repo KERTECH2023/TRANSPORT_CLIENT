@@ -1,6 +1,4 @@
-import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:users_app/InfoHandler/app_info.dart';
@@ -13,19 +11,19 @@ import '../assistants/request_assistant.dart';
 
 class PlacesPredictionTileDesign extends StatelessWidget {
   final PredictedPlaces? predictedPlaces;
-  bool from;
+  final bool from;
 
-  PlacesPredictionTileDesign({this.predictedPlaces, required this.from});
+  const PlacesPredictionTileDesign({super.key, this.predictedPlaces, required this.from});
 
-  void getPlaceDirectionDetails(String? place_id, context, bool from) async {
-    showDialog(
+  void getPlaceDirectionDetails(String? placeId, context, bool from) async {
+     showDialog(
         context: context,
-        builder: (BuildContext context) =>
-            ProgressDialog(message: "Setting up Dropoff"));
+         builder: (BuildContext context) =>
+            const ProgressDialog(message: "Setting up Dropoff"));
 
     // Create connection of api to fetch places Details
     String placesDirectionDetailUrl =
-        "https://maps.googleapis.com/maps/api/place/details/json?place_id=$place_id&key=$mapKey";
+        "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$mapKey";
 
     // Close the dialog
     Navigator.pop(context);
@@ -38,7 +36,7 @@ class PlacesPredictionTileDesign extends StatelessWidget {
     }
     if (responseApi["status"] == "OK") {
       Directions adress = Directions();
-      adress.locationId = place_id;
+      adress.locationId = placeId;
       adress.locationName = responseApi["result"]["name"];
       adress.locationLatitude =
           responseApi["result"]["geometry"]["location"]["lat"];
@@ -85,13 +83,7 @@ class PlacesPredictionTileDesign extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  // Text(
-                  //   predictedPlaces!.secondary_text!,
-                  //   style: const TextStyle(
-                  //     fontSize: 12.0,
-                  //     color: Colors.black,
-                  //   ),
-                  // ),
+                 
                 ],
               ),
             )

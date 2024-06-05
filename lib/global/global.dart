@@ -7,7 +7,7 @@ import '../models/user_model.dart';
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 User? currentFirebaseUser;
 UserModel? currentUserInfo;
-List driversList = [];
+Set driversList = {};
 DirectionDetailsInfo? tripDirectionDetailsInfo;
 String chosenDriverId = "";
 String cloudMessagingServerToken = "ya29.a0AbVbY6OvWgt_h7jZeQOQ4qIN-8Pkpdd7_Co_oKA2NfjxYH2jwJJFsExeidDbj8DiqBY3jSFgjE6IGms0mbqN8QqDPHmEnzgWJmWyqTlWKks4MXEtUjtTp9KiiW3Qear9-ClQd3iv5hr2hjSpMhPUvGox0e_waCgYKASESARASFQFWKvPlcV90jEHpGgbMKhjalu095Q0163";
