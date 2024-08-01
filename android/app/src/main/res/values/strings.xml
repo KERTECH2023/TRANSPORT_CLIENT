@@ -1,8 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">MyApp</string>
-    <string name="title_activity_main">.MainActivity</string>
-    <string name="package_name">transport.app.drivers_app</string>
-    <string name="custom_url_scheme">com.example.drivers_app</string>
-    <string name="default_notification_channel_id">com.example.drivers_app.urgent</string>
-</resources>
